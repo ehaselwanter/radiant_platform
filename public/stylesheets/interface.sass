@@ -544,7 +544,77 @@ a.detag
     :image url(/images/admin/collapse.png) 
     :repeat no-repeat 
 
-///////////////////////////// mini calendar blocks
+///////////////////////////// calendar blocks
+
+table.month
+  :border-collapse collapse
+  :border 1px solid #ccc
+  :color #4d4e53
+  th, td
+    :border 1px solid #ccc
+    :padding 6px
+    :vertical-align top
+  th
+    a
+      :display block
+      :color #ccc
+      :font-weight lighter
+    a:hover
+      :color #c00
+  td
+    +smallfonts
+    div
+      :width 85px
+      :height 85px
+      :overflow hidden
+    h4
+      :margin 0
+      :font-weight lighter
+      :text-align right
+      :color #4d4e53
+    ul
+      :margin 0
+      :padding 0
+      :list-style inline
+      li
+        :margin-bottom 2px
+    a
+      :display block
+      :color #c00
+      :text-decoration none
+      :margin 0 0 4px 0
+      :font-weight bold
+  tr.month_name 
+    th
+      :font-weight normal
+      :text-align right
+      :padding-top 1em
+      :padding-bottom 0.7em
+      :color black
+  tr.day_name 
+    th
+      :font-family HelveticaNeue-Light, helvetica, arial, sans-serif
+      :font-size 0.8em
+      :padding-top 0.6em
+      :padding-bottom 0.3em
+      :font-weight lighter
+  td.other_month 
+    :color = !pale
+    :background-color = !page
+    a
+      :color = !pale
+  td.weekend_day 
+    :background-color  #eee
+  td.eventful 
+    :background-color  #fee
+  td.eventful_weekend 
+    :background-color  #edd
+  td.today 
+    :background-color= !midgrey
+    :color = !page
+    :font-weight bold
+  td.weekend_today
+    :background-color #dde
 
 #sidebar
   table.minimonth
@@ -584,6 +654,7 @@ a.detag
     td.event_list
       :text-align left
       :line-height 1.4
+      :width 100%
       ul
         :list-style none
         :margin 6px
