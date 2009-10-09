@@ -370,6 +370,7 @@ div#strap
     :margin-top 0
   ul
     :padding 0
+    :margin 20px 0
     li
       :clear left
       a
@@ -545,40 +546,51 @@ a.detag
 
 ///////////////////////////// mini calendar blocks
 
-table.minimonth
-  :border-collapse collapse
-  :border 1px solid #ccc
-  :color #4d4e53
-  :margin-bottom 10px
-  th, td 
-    :border 1px solid #afafaf
-    :padding 3px
-    :vertical-align middle
-    :text-align center
-  td 
-    :width 24px
-    :overflow hidden
-    :line-height 20px
-    :padding-top 4px
-  th.month_name 
-    :font-size 125%
-    :font-weight normal
-    :color black
-  td.other_month 
-    :color = !pale
-    :background-color = !page
-  td.weekend_day 
-    :background-color  #eee
-  td.eventful 
-    :background-color  #fee
-  td.eventful_weekend 
-    :background-color  #edd
-  td.today 
-    :background-color= !midgrey
-    :color = !page
-    :font-weight bold
-  td.other_month a 
-    :color = !pale
+#sidebar
+  table.minimonth
+    :border-collapse collapse
+    :border 1px solid #ccc
+    :color #4d4e53
+    :margin-bottom 20px
+    th, td 
+      :border 1px solid #afafaf
+      :padding 3px
+      :vertical-align middle
+      :text-align center
+    td 
+      :width 28px
+      :overflow hidden
+      :line-height 24px
+      :padding-top 4px
+    th.month_name 
+      :font-size 125%
+      :font-weight normal
+      :color black
+    td.other_month 
+      :color = !pale
+      :background-color = !page
+    td.weekend_day 
+      :background-color  #eee
+    td.eventful 
+      :background-color  #fee
+    td.eventful_weekend 
+      :background-color  #edd
+    td.today 
+      :background-color= !midgrey
+      :color = !page
+      :font-weight bold
+    td.other_month a 
+      :color = !pale
+    td.event_list
+      :text-align left
+      :line-height 1.4
+      ul
+        :list-style none
+        :margin 6px
+      p
+        :margin 6px 6px 0 2px
+        a.ical
+          :color #900
 
 ///////////////////////////// event list
 
