@@ -722,27 +722,28 @@ form.friendly
     :display inline
   small.error 
     :display none
-  p.haserror 
-    :border-left
-      :width 4px
-      :style solid
-      :color = !emphasis
-    :margin-left -16px
-    :padding-left 12px
-    :color = !emphasis
-    input, textarea 
-      :border
-        :width 1px
-        :style solid
-        :color = !emphasis
-    label 
-      :color = !emphasis
   p.context
     :margin 0
   div.innocuous 
     :display none
   label.required 
     :font-weight bold
+
+p.haserror 
+  :border-left
+    :width 4px
+    :style solid
+    :color = !emphasis
+  :margin-left -16px
+  :padding-left 12px
+  :color = !emphasis
+  input, textarea 
+    :border
+      :width 1px
+      :style solid
+      :color = !emphasis
+  label 
+    :color = !emphasis
 
 ul.friendly 
   :list-style square
