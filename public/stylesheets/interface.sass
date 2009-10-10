@@ -799,32 +799,15 @@ img.big_gravatar
 
 ///////////////////////////// pagination
 
-div.pagination 
-  :font-family helvetica, arial, sans-serif
-  :font-size .8em
-  span.pagination_summary 
-    :color = !pale
-    :float right
-  p.pagination_summary a 
-    :color = !accent
+p.pagination 
   a 
     :padding 6px 8px 5px 8px
-    :-moz-border-radius 4px
-    :-webkit-border-radius 4px
-  a:hover 
-    :background-color = !emphasis
-    :color white
-    :text-decoration none
-  span.current 
+    :font-weight bold
+  span.page 
     :padding 6px 8px 5px 8px
-    :margin-right 2px
-    :background-color = !pale
-    :color white
-    :-moz-border-radius 4px
-    :-webkit-border-radius 4px
-  span.disabled 
+    :color = !dark
+  span.disabled
     :padding 6px 8px 5px 8px
-    :margin-right 2px
     :color = !pale
 
 ///////////////////////////// forum
@@ -993,7 +976,7 @@ div.upload_handler, div.post_attachments
     :font-family helvetica, arial, sans-serif
     :font-size 50%
 
-a.cancel, a.remove 
+a.cancel, a.remove
   :color = !emphasis
 a.cancel:hover, a.remove:hover 
   :background-color = !emphasis
@@ -1007,3 +990,22 @@ div.uploads
   :display none
 div.upload_handler ul li 
   :color #1bb68b
+
+
+///////////////////////////// search form and results
+
+ol.search
+  :margin 30px 0
+  li
+    :margin 20px 0
+    a.result
+      +headerfonts
+      :font-size 140%
+    span.excerpt
+      span.match
+        :font-weight bold
+    span.breadcrumbs
+      +smallfonts
+      :color = !pale
+    
+
