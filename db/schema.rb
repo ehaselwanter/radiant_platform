@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "updated_by_id"
     t.integer  "lock_version"
     t.integer  "group_id"
-    t.string   "function"
+    t.string   "function_id"
     t.integer  "status_id",     :default => 1
   end
 
@@ -200,10 +200,13 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.boolean  "commentable",                    :default => true
     t.boolean  "comments_closed",                :default => false
     t.integer  "behavior_id"
+    t.boolean  "searchable",                     :default => true
+    t.boolean  "delta",                          :default => false
   end
 
   add_index "pages", ["class_name"], :name => "pages_class_name"
   add_index "pages", ["parent_id"], :name => "pages_parent_id"
+  add_index "pages", ["searchable"], :name => "index_pages_on_searchable"
   add_index "pages", ["slug", "parent_id"], :name => "pages_child_slug"
   add_index "pages", ["virtual", "status_id"], :name => "pages_published"
 
