@@ -278,6 +278,15 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "clear_password"
     t.integer  "posts_count",                            :default => 0
     t.integer  "old_id"
+    t.string   "forename"
+    t.string   "phone"
+    t.string   "organisation"
+    t.string   "post_building"
+    t.string   "post_street"
+    t.string   "post_place"
+    t.string   "post_town"
+    t.string   "post_county"
+    t.string   "postcode"
   end
 
   add_index "readers", ["session_token"], :name => "session_token"
