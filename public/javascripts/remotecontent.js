@@ -13,7 +13,7 @@ var InlineLink = new Class({
     });
   },
   sendLink: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     this.link.blur();
     this.catcher.load(this.link.get('href'));
   },
@@ -52,7 +52,7 @@ var InlineForm = new Class ({
   },
   
   sendForm: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     this.catcher.get('load').post(this.form);
   },
 

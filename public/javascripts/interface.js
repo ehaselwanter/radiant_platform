@@ -1,29 +1,17 @@
 var activations = [];
 var top_z = null;
 
-Event.implement({
-  block: function () {
-    if (this.target) this.target.blur();
-    this.preventDefault();
-    this.stop();
-    return this;
-  }
-});
-
-Element.implement({
-  front: function () {
-    top_z = topZ() + 1;
-    this.setStyle('z-index', top_z);
-  }
-});
-
 window.addEvent('domready', function(){
   activate();
 });
 
+activations.push(function (scope) {
+  fadeNotices.delay(4000);
+});
+
 var activate = function (scope) {
   if (!scope) scope = document;
-  activations.each(function (fun) { fun.attempt(scope); });
+  activations.each(function (fun) { fun.run(scope); });
 };
 
 var topZ = function () {
@@ -39,11 +27,9 @@ var fadeNotices = function () {
   $$('div.notice, div.error').fade('out');
 };
 
-
-
-
-
-
-activations.push(function (scope) {
-  fadeNotices.delay(4000);
+Element.implement({
+  front: function () {
+    top_z = topZ() + 1;
+    this.setStyle('z-index', top_z);
+  }
 });

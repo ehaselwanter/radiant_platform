@@ -64,7 +64,7 @@ var NavBar = new Class({
     this.timer = (function () { nb.close(e); }).delay(1500);
   },
   cancelClose: function (e) {      
-    if (e) e.block();
+    if (e) e.stop();
     $clear(this.timer);
   }
 });

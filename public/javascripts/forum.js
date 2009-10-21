@@ -15,7 +15,7 @@ var Post = new Class({
   },
   
   edit: function(e){
-    if (e) e.block();
+    if (e) e.stop();
     this.editor.addClass('waiting');
     if (this.showing) this.cancel();
     else if (this.form_holder) this.prepForm();
@@ -57,7 +57,7 @@ var Post = new Class({
       // can't send uploads over xmlhttp so we allow the form to submit
       // the update-post action will redirect to a hashed url that should return us to the right post
     } else {
-      if (e) e.block();
+      if (e) e.stop();
       new Request.HTML({
         url: this.form.get('action'),
         update: this.container,
@@ -67,7 +67,7 @@ var Post = new Class({
     
   },
   cancel: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     this.finishCancel();
     // new Fx.Morph(this.input, {duration: 'short', onComplete : this.finishCancel.bind(this)}).start({'height' : this.h, opacity : 0});
   },
@@ -109,11 +109,11 @@ var UploadHandler = new Class({
     uh = this;
   },
   toggle: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     this.reveal.toggle();
   },
   addUpload: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     this.uploads.push(new Upload(this));
     this.resize();
   },
@@ -147,7 +147,7 @@ var Upload = new Class({
     return '/images/forum/icons/attachment_new.png';
   },
   remove: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     this.uploader.destroy();
     this.container.nix();
     this.handler.resize();
@@ -162,7 +162,7 @@ var Attachment = new Class({
     this.remover.addEvent('click', this.remove.bindWithEvent(this));
   },
   remove: function (e) {
-    if (e) e.block();
+    if (e) e.stop();
     if (this.checkbox) this.checkbox.set('checked', false);
     this.container.nix();
   },
