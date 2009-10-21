@@ -15,7 +15,7 @@ var Tab = new Class({
     tabs.push(this);
   },
   select: function (e) {
-    if (e) e.preventDefault();
+    if (e) new Event(e).stop();
     this.tabhead.blur();
     this.tabset.select(this);
   },

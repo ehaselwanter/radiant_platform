@@ -86,7 +86,7 @@ blockquote
 
 ///////////////////////////// widely-used modifications
 
-.hidden, .separator
+.hidden
   :display none
 .spaced
   :margin-left 20px
@@ -106,7 +106,7 @@ blockquote
   +smallfonts
   :color = !pale
 
-div.floatleft, div.floatright
+.floatleft, .floatright
   :margin 0 0 12px 0
   +smallfonts
   :font-size 10px
@@ -114,9 +114,9 @@ div.floatleft, div.floatright
   :margin-right 20px
   :margin-top 10px
   :line-height 1.2
-div.floatleft
+.floatleft
   :float left
-div.floatright
+.floatright
   :float right
 
 a.listlink
@@ -457,10 +457,11 @@ div#strap
     :color = !mh
     :font-size 95%
     h2
+      :float left
       :color = !page
       :font-size 160%
-      :float left
-      :margin 0 6px 0 0
+      :line-height 1
+      :margin 5px 8px 0 0
     p
       :margin 16px 0 0 0
       :padding 6px 0 0 0
@@ -710,6 +711,11 @@ a.ical
   :margin  0 2px 8px 2px
 
 ///////////////////////////// reader interface elements
+
+div#controls
+  +smallfonts
+  :color = !pale
+  :margin-bottom 12px
 
 form.friendly
   p
@@ -1019,4 +1025,16 @@ ol.search
       +smallfonts
       :color = !pale
     
+
+///////////////////////////// front page highlights
+
+h2.lastfew
+  a
+    :display block
+    :overflow hidden
+    :background transparent url(<r:assets:url id="247" size="original" />) no-repeat top left
+    :width 240px
+    :height 60px
+    :padding 6px 0 0 70px
+    :color #a34138
 
