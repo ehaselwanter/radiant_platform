@@ -90,7 +90,7 @@ var ImagePreview = new Class({
   preview: function () {
     if (this.is_ready) {
       this.cancelDown();
-      this.shower.front();
+      this.shower.bringForward();
       this.shower.addEvent('mouseout', this.hideSoon.bind(this));
       this.shower.show();
       this.upper().start(this.previewing);
@@ -124,22 +124,6 @@ var ImagePreview = new Class({
   }
 });
 
-var top_z = null;
-var topZ = function () {
-  if (top_z) return top_z;
-  $$('*').each(function (element) {
-    z = parseInt(element.getStyle('z-index'), 10);
-    if (z > top_z) top_z = z;
-  });
-  return top_z;
-};
-
-Element.implement({
-  front: function () {
-    top_z = topZ() + 1;
-    this.setStyle('z-index', top_z);
-  }
-});
 
 
 
