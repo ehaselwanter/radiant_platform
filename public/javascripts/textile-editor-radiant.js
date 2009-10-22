@@ -22,7 +22,7 @@ filterObserver.prototype = {
       toolbar.parentNode.removeChild(toolbar);
     }
   }
-};
+}
 
 Event.observe(window, 'load', load_textile_editor);
 
@@ -73,7 +73,7 @@ Popup.prototype = {
       });
       var attachments = extantAttachments.concat(newAttachments);
       optgroup.update(attachments.collect(function (e) {
-        return "<option value='" + e + "'>" + e + "</option>";
+        return "<option value='" + e + "'>" + e + "</option>"
       }).join("\n"));
       if($('page_ancestor_attachments_count').value == 0 && attachments.size() == 0 ) {
         this.popupElement.getElementsBySelector('p.help.advisory').first().hide();
@@ -94,14 +94,14 @@ Popup.prototype = {
         }
       }
     } else {
-      transformationType = buttonGroup.value;
+      transformationType = buttonGroup.value
     }
     return transformationType;
   },
   
 
   center: function() {
-    var header = $('header');
+    var header = $('header')
     element = $(this.popupElement);
     element.style.position = 'absolute';
     var dim = Element.getDimensions(element);
@@ -149,13 +149,13 @@ Popup.prototype = {
     switch(this.transformationType()) {
       case 'web':
         copyFrom = $('web_text');
-        break;
+      break
       case 'email':
         copyFrom = $('email_text');
-        break;
+      break
       case 'attachment':
         copyFrom = $('attachment_text');
-        break;
+      break
       default: alert('something wrong'); 
     }
     if (this.copyLabelFromAddress) {
@@ -168,14 +168,14 @@ Popup.prototype = {
     if ($('display_text').value == '') {
       this.copyLabelFromAddress = true;
     } else {
-      this.copyLabelFromAddress = false;
+      this.copyLabelFromAddress = false
     }
   },
   
   startCopyLabelFromAddress: function() {
     if ($('display_text').value == '') this.copyLabelFromAddress = true;
   }
-};
+}
 
 // Subclass of Popup specifically for adding links
 var LinkPopup = Class.create();
@@ -238,7 +238,7 @@ Object.extend(Object.extend(LinkPopup.prototype,Popup.prototype),{
         else {
           textInsert = webAddressValue;
         }
-        break;
+      break
       case 'email':
         emailAddress = $('email_text');
         emailAddressValue = emailAddress.value;
@@ -249,7 +249,7 @@ Object.extend(Object.extend(LinkPopup.prototype,Popup.prototype),{
         else {
           textInsert = '<r:enkode_mailto email="'+emailAddressValue+'" />';
         }
-        break;
+      break
       case 'attachment':
         attachment = $('attachment_text');
         attachmentValue = attachment.value;
@@ -259,7 +259,7 @@ Object.extend(Object.extend(LinkPopup.prototype,Popup.prototype),{
         } else {
           textInsert = '<r:attachment:link name="'+attachmentValue+'">'+attachmentText+'</r:attachment:link>';
         }
-        break;
+      break
       case 'asset':
         assetID = $('asset_id').value;
         assetText = displayText.value;
@@ -269,7 +269,7 @@ Object.extend(Object.extend(LinkPopup.prototype,Popup.prototype),{
         } else {
           textInsert = '<r:assets:link id="'+assetID+'" size="'+assetSize+'">'+assetText+'</r:assets:link>';
         }
-        break;
+      break
       default: alert('something wrong'); 
     } 
 
@@ -286,7 +286,7 @@ Object.extend(Object.extend(LinkPopup.prototype,Popup.prototype),{
 
     $$('.transform_choice').each(function(node) {
       Element.removeClassName(node, 'transform_current');
-    });
+    })
 
     Element.show('transform_input_' + this.transformationType());
     Element.addClassName('link_transform_choice_' + this.transformationType(), 'transform_current');
@@ -325,12 +325,11 @@ Object.extend(Object.extend(ImagePopup.prototype,Popup.prototype), {
         this.switchTransformChoice($$("#image_transform_choice_attachment input")[0]);
 
       } else if (matches = this.textSelection['selectedText'].match(assetPattern)) {
+        this.switchInputChoice($('img_asset_' + matches[1]))
         if (matches[3]) $('img_asset_size').value = matches[3];
         if (matches[5]) $('alt_text').value = matches[5];
-        if (element = $('img_asset_' + matches[1])) {
-          this.switchTransformChoice($$("#image_transform_choice_asset input")[0]);
-          this.setInputChoice(element);
-        }
+        this.switchTransformChoice($$("#image_transform_choice_asset input")[0]);
+
       } else {
         $('alt_text').value = this.textSelection['selectedText'];
         this.switchTransformChoice($$("#image_transform_choice_link input")[0]);
@@ -352,7 +351,7 @@ Object.extend(Object.extend(ImagePopup.prototype,Popup.prototype), {
         else {
           textInsert = '!'+webAddress+'('+altText+')!';
         }
-        break;
+      break
       case 'attachment':
         attachment = $('img_attachment_text');
         attachmentValue = attachment.value;
@@ -361,7 +360,7 @@ Object.extend(Object.extend(ImagePopup.prototype,Popup.prototype), {
         } else {
           textInsert = '<r:attachment:image name="'+attachmentValue+'" alt="'+altText+'" />';
         }
-        break;
+      break
       case 'asset': case 'bucket':
         assetID = this.selectedAssetID();
         assetSize = $('img_asset_size').value;
@@ -370,7 +369,7 @@ Object.extend(Object.extend(ImagePopup.prototype,Popup.prototype), {
         } else {
           textInsert = '<r:assets:image id="'+assetID+'" size="' + assetSize + '" alt="'+altText+'" />';
         }
-        break;
+      break
       default: alert('transform type not recognised: should be one of web, attachment, asset or bucket'); 
     } 
 
@@ -388,45 +387,47 @@ Object.extend(Object.extend(ImagePopup.prototype,Popup.prototype), {
 
     $$('.transform_choice').each(function(node) {
       Element.removeClassName(node, 'transform_current');
-    });
+    })
 
     Element.show('image_transform_input_' + this.transformationType());
     Element.addClassName('image_transform_choice_' + this.transformationType(), 'transform_current');
   },
+
+  switchInputChoice: function(element) {
+    if (element) element.checked = true;
     
-  setInputChoice: function(element) {
-    element.checked = true;
-    this.switchThumbnailHighlight($(element.id  + '_thumbnail'));
+    $$('.asset_thumbnail').each(function(node) {
+      Element.removeClassName(node, 'selected_thumbnail');
+    })
+
+    Element.addClassName(this.selectedThumbnail(), 'selected_thumbnail');
   },
   
-  switchInputChoice: function() {
-    this.switchThumbnailHighlight($(this.selectedAssetName() + '_thumbnail'));
+  selectedAsset: function (argument) {
+    var buttonGroup = this.form.img_asset_id + this.form.img_bucket_id;
+    var assetID = null;
+    for (var i=0; i<buttonGroup.length; i++) {
+      if (buttonGroup[i].checked) {
+        asset_id = buttonGroup[i].id;
+        break;
+      }
+    }
+    return asset_id;
   },
   
-  switchThumbnailHighlight: function (thumb) {
-    $$('.asset_thumbnail').each(function(element) { element == thumb ? element.addClassName('selected_thumbnail') : element.removeClassName('selected_thumbnail'); });
+  selectedAssetID: function () {
+    var a = this.selectedAsset();
+    if (a) return a.split('_').pop();
   },
   
-  selectedAssetName: function (argument) {
-    return $$('input:checked[type="radio"][name="img_asset_id"]').pluck('id')[0];
+  selectedThumbnail: function() {
+    return $(this.selectedAsset()  + '_thumbnail');
   },
 
-  selectedAssetID: function (argument) {
-    return $$('input:checked[type="radio"][name="img_asset_id"]').pluck('value')[0];
-  },
-    
   initializeObservers: function() {
     $$('.asset_picker').each(function (radiobutton) {
-      Event.observe(radiobutton, 'click', this.switchInputChoice.bindAsEventListener(this, radiobutton));
+      Event.observe(radiobutton, 'click', this.switchInputChoice.bindAsEventListener(this));
     }.bind(this));
-    
-
-    
-
-    // asset uploader from paperclipped
-    // except that we create a form outside the document and post that
-    // to get round the nested form problem
-    
     
   }
   
@@ -440,8 +441,4 @@ String.prototype.getHostname = function() {
   } else {
     return null;
   }
-}
-
-addAsset = function (asset_id) {
-  
 }

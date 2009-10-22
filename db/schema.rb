@@ -160,9 +160,9 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "lock_version"
-    t.integer  "group_id"
     t.string   "function_id"
     t.integer  "status_id",     :default => 1
+    t.integer  "group_id"
   end
 
   create_table "page_attachments", :force => true do |t|
@@ -199,7 +199,6 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "keywords"
     t.boolean  "commentable",                    :default => true
     t.boolean  "comments_closed",                :default => false
-    t.integer  "behavior_id"
     t.boolean  "searchable",                     :default => true
     t.boolean  "delta",                          :default => false
   end
@@ -268,16 +267,14 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "user_id"
     t.datetime "last_request_at"
     t.datetime "last_login_at"
-    t.string   "persistence_token",                                         :null => false
-    t.string   "single_access_token",                                       :null => false
-    t.string   "perishable_token",                                          :null => false
+    t.string   "persistence_token",                      :default => "",    :null => false
+    t.string   "single_access_token",                    :default => "",    :null => false
+    t.string   "perishable_token",                       :default => "",    :null => false
     t.integer  "login_count",                            :default => 0,     :null => false
     t.integer  "failed_login_count",                     :default => 0,     :null => false
     t.string   "current_login_ip"
     t.string   "last_login_ip"
     t.string   "clear_password"
-    t.integer  "posts_count",                            :default => 0
-    t.integer  "old_id"
     t.string   "forename"
     t.string   "phone"
     t.string   "organisation"
@@ -287,6 +284,8 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "post_town"
     t.string   "post_county"
     t.string   "postcode"
+    t.integer  "posts_count",                            :default => 0
+    t.integer  "old_id"
   end
 
   add_index "readers", ["session_token"], :name => "session_token"
