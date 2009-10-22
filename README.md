@@ -1,22 +1,12 @@
 # Fat Radiant
 
-This is a standard installation of radiant, with all the extensions we normally use to support the kind of participative site we normally make. It might possibly be useful to other people so I've made it open, but it's not your standard radiant blog installation.
+This is a standard installation of radiant, with all the extensions we normally use to support the kind of participative site we normally make. It might possibly be useful to other people so I've made it open, but it's not your standard blog installation.
 
 ## Purpose
 
-Most radiant sites are built in three layers. Mine are, anyway:
+This is a way of consolidating all our site code into a standard install, with the useful side-effect of imposing a strong separation of content: if it's not platform, it has to come from the database. Stylesheets and javascripts have to be a mixture of standard libraries (in the filesystem) and local extensions (from the database, delivered with the right content-type), and there can be no site-specific code in the filesystem. It's a pain sometimes, but it makes deployment, upgrades and code-transfer much easier, and when you're running multi-sited it gives you complete site-separation.
 
-* Radiant and extensions
-* site-specific static files: images, css, javascripts
-* files delivered from the database (including images, css and javascripts)
-
-The static site-specific layer is a fudgy mess, as a rule, and becomes a great nuisance when you run multi-sited. This Platform is an attempt to standardise our installations so that apart from radiant itself there is only platform code and database content. The platform is always generic and common to all our sites. The database is always site-specific.
-
-This means working through the admin interface more than one might want, but it becomes obvious after a while: your stylesheets are pages delivered with an empty layout and the content type text/css. When you want to use a background image in a stylesheet, upload it as an asset and put something like this in the css rule:
-
-	background-image: url(<r:assets:url id="99" />);
-	
-The rest is normal.
+Note that this means any images referred to in your stylesheets have to be uploaded as assets. Since you also have to edit your stylesheets through the admin interface, you can do this with the inline uploader in the usual way.
 
 ## Installation
 
@@ -33,7 +23,7 @@ The rest is normal.
 
 	* config/database.yml
 	* config/deploy.rb
-	* config/nginx.conf (or whatever you prefer)
+	* config/nginx.conf (or whatever front-end server you're using)
 	* public/robots.txt
 	* public/favicon.ico
 
@@ -45,7 +35,9 @@ The rest is normal.
 
 	rake db:migrate:extensions
 
-6. Update all the extensions. At the moment you have to do this by hand because I haven't finished the combined update task. Or indeed started it.
+6. Update all the extensions.
+
+	rake radiant:extensions:update_all
 
 ## Importing an existing site
 
@@ -63,6 +55,10 @@ The dependencies here mean that you can't just run db:migrate:extensions. This s
 	rake db:migrate:extensions
 
 but it will depend where you're coming from.
+
+### Bootstrapping
+
+I'm working on a rake task that will give you a working empty site to build from. Any thoughts or suggestions are very welcome.
 
 ### Moving site-specific material into the database
 
