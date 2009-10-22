@@ -50,7 +50,7 @@ var ImagePreview = new Class({
     this.img = img;
     this.img.fade(0.4);
 
-    this.url = img.get('src').replace('_small', '_illustration');
+    this.url = img.get('src').replace('_small', '_large');
     this.shower = new Asset.image(this.url, {title: this.img.get('title'), onload: this.makeReady.bind(this)});
 
     this.at = img.getCoordinates();
@@ -124,7 +124,22 @@ var ImagePreview = new Class({
   }
 });
 
+var top_z = null;
+var topZ = function () {
+  if (top_z) return top_z;
+  $$('*').each(function (element) {
+    z = parseInt(element.getStyle('z-index'), 10);
+    if (z > top_z) top_z = z;
+  });
+  return top_z;
+};
 
+Element.implement({
+  front: function () {
+    top_z = topZ() + 1;
+    this.setStyle('z-index', top_z);
+  }
+});
 
 
 
