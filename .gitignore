@@ -11,6 +11,7 @@ tmp/**/*
 doc/api
 doc/app
 public/assets/*
+public/stylesheets/interface.sass
 public/page_attachments/*
 public/post_attachments/*
 secure_downloads/*

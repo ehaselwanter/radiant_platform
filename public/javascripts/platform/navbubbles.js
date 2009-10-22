@@ -3,9 +3,12 @@ var menu = null;
 var Menu = new Class({
   initialize: function(element){
     this.container = element;
-    this.menu = [];
-    this.container.getElements('li.mi').each(function (li) { this.menu.push(new MenuItem(li, this)); }, this);
+    this.items = [];
+    this.container.getElements('li.mi').each(function (li) { this.items.push(new MenuItem(li, this)); }, this);
     menu = this;
+  },
+  size: function () {
+    return this.items.length;
   }
 });
 
@@ -18,43 +21,33 @@ var MenuItem = new Class({
     this.nav = nav;
     this.head = li.getElement('a');
     this.submenu = li.getElement('ul');
-    
-    this.showing = {
-      'margin': '-4px 0 0 -6px',
-      'font-size': '17px',
-      'padding': '3px'
+    this.when_hiding = {
+      'padding' : 0,
+      'margin' : 4,
+      'background-color' : '#ffffff'
     };
-    this.hiding = {
-      'margin': '3px',
-      'font-size': '14px',
-      'padding': '0'
+    this.when_showing = {
+      'padding' : 4,
+      'margin' : 0,
+      'background-color' : '#1bb68b'
     };
-    
-    var clone = this.container.clone().setStyles(this.showing).setStyles({'display': 'inline', 'margin-left': '-2000px'}).inject(this.nav.container);
-    this.hiding['width'] = this.head.getWidth() + 6;
-    this.showing['width'] = clone.getWidth();
-    clone.destroy();
-    var offset = nav.menu.length * 24;
-    var boundary = this.nav.container.getCoordinates();
-    this.container.setStyles({
-      'position':'fixed',
-      'top': boundary.top + offset + 'px',
-      'left': (boundary.left + boundary.width + 6 - this.hiding['width']) + 'px'
-    });
-    
+    if (this.submenu) {
+      var clone = li.clone().addClass('over').setStyle('margin-left', '-2000px').inject(this.nav.container);
+      this.when_hiding['width'] = li.getWidth();
+      this.when_showing['width'] = clone.getWidth();    
+      clone.destroy();
+    }
     this.head.addClass('head');
     this.container.set('morph', {duration: 'short'});
     this.container.addEvent('mouseenter', this.enter.bindWithEvent(this));
     this.container.addEvent('mouseleave', this.leave.bindWithEvent(this));
-    this.hide();
   },
-  
-  enter: function (argument) {
-    this.container.bringForward();
-    this.container.addClass('over');
+  enter: function (e) {
+    unevent(e);
     this.show();
   },
-  leave: function (argument) {
+  leave: function (e) {
+    unevent(e);
     this.hideSoon();
   },
   interrupt: function () {
@@ -64,21 +57,22 @@ var MenuItem = new Class({
   show: function (e) {
     unevent(e);
     this.interrupt();
-    this.container.get('morph').start(this.showing);
+    this.container.addClass('over');
+    this.container.get('morph').start(this.when_showing);
   },
   hide: function (e) {
     unevent(e);
     this.interrupt();
-    this.container.get('morph').start(this.hiding).chain(this.finishHiding.bind(this));
+    this.container.get('morph').start(this.when_hiding).chain(this.finishHiding.delay(200));
   },
   hideSoon: function (e) {
     unevent(e);
     this.timer = this.hide.bind(this).delay(200);
-  },
-  finishHiding: function () {
-    this.container.removeClass('over');
   }
 });
+
+
+
 
 activations.push(function (scope) {
 	scope.getElements('.navbubbles').each(function (div) { new Menu(div); });

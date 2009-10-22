@@ -2,6 +2,10 @@
 
 This is a standard installation of radiant, with all the extensions we normally use to support the kind of participative site we normally make, and some rake tasks that speed up the creation of a new site. It might possibly be useful to other people so I've made it open, but it's not your standard blog installation and you probably don't need this much stuff.
 
+## oops
+
+You can't check this out at the moment because the submodule urls are all the authenticated commitable ones. D'oh! I'll fix that shortly.
+
 ## Purpose
 
 This is a way of consolidating all our site code into a standard install, with the useful side-effect of imposing a strong separation of content: if it's not platform, it has to come from the database. Stylesheets and javascripts are therefore a mixture of standard libraries (in the filesystem) and local extensions (from the database, delivered with the right content-type), and there can be no site-specific code in the filesystem. It's a pain sometimes, but it makes deployment, upgrades and code-transfer much easier, and when you're running multi-sited it gives you proper site-separation.
