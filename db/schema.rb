@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "upload_token"
+    t.integer  "site_id"
   end
 
   create_table "calendars", :force => true do |t|
@@ -136,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "content_type",      :limit => 40
     t.integer  "lock_version",                     :default => 0
     t.string   "default_filter_id", :limit => 25
+    t.integer  "site_id"
   end
 
   create_table "memberships", :force => true do |t|
@@ -299,6 +301,24 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "sites", :force => true do |t|
+    t.string   "name"
+    t.string   "domain"
+    t.integer  "homepage_id"
+    t.integer  "position",          :default => 0
+    t.string   "base_domain"
+    t.integer  "created_by_id"
+    t.datetime "created_at"
+    t.integer  "updated_by_id"
+    t.datetime "updated_at"
+    t.string   "subtitle"
+    t.string   "abbreviation"
+    t.integer  "forum_layout_id"
+    t.integer  "reader_layout_id"
+    t.string   "mail_from_name"
+    t.string   "mail_from_address"
+  end
+
   create_table "snippets", :force => true do |t|
     t.string   "name",          :limit => 100, :default => "", :null => false
     t.string   "filter_id",     :limit => 25
@@ -308,6 +328,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "lock_version",                 :default => 0
+    t.integer  "site_id"
   end
 
   add_index "snippets", ["name"], :name => "name", :unique => true
@@ -388,8 +409,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "lock_version",                 :default => 0
     t.string   "salt"
     t.string   "session_token"
+    t.integer  "site_id"
   end
-
-  add_index "users", ["login"], :name => "login", :unique => true
 
 end

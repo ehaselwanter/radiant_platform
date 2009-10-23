@@ -117,7 +117,7 @@ var MenuItem = new Class({
   },
   hideSoon: function (e) {
     unevent(e);
-    this.timer = this.hide.bind(this).delay(400);
+    this.timer = this.hide.bind(this).delay(200);
   },
   finishHiding: function () {
     // this.container.removeClass('over');
