@@ -38,12 +38,12 @@ var MenuItem = new Class({
     this.nav = nav;
     this.head = li.getElement('a');
     this.head.addClass('head');
+    this.head.set('tween', {duration : 'short'});
     this.submenu = li.getElement('ul');
     this.when_hiding = {
       'padding' : 0,
       'margin' : 4,
       'border-color' : '#ffffff',
-      'opacity' : 0.5,
       'font-size' : 12
     };
     this.when_showing = {
@@ -52,7 +52,6 @@ var MenuItem = new Class({
       'margin-left' : -4,
       'margin-top' : 0,
       'border-color' : '#d1005d',
-      'opacity' : 1,
       'font-size' : 16
     };
     if (this.head) {
@@ -84,11 +83,11 @@ var MenuItem = new Class({
     return this;
   },
   lazyGetShower:function (argument) {
-    if (!this.shower) this.shower = new Fx.Morph(this.container, {duration: 'short', transition: Fx.Transitions.Sine.easeOut});
+    if (!this.shower) this.shower = new Fx.Morph(this.container, {duration: '200'});
     if (this.shower) return this.shower;
   },
   lazyGetHider:function (argument) {
-    if (!this.hider) this.hider = new Fx.Morph(this.container, {duration: 'normal', transition: Fx.Transitions.Cubic.easeOut, onComplete : this.finishHiding.bind(this)});
+    if (!this.hider) this.hider = new Fx.Morph(this.container, {duration: '800', transition: Fx.Transitions.Cubic.easeOut, onComplete : this.finishHiding.bind(this)});
     return this.hider;
   },
   enter: function (e) {
@@ -101,19 +100,23 @@ var MenuItem = new Class({
   },
   interrupt: function () {
     $clear(this.timer);
-    this.container.get('morph').cancel();
+    if (this.hider) this.hider.cancel();
+    if (this.shower) this.shower.cancel();
+    this.head.get('tween').cancel();
   },
   show: function (e) {
     unevent(e);
     this.interrupt();
     this.container.bringForward();
+    // this.container.addClass('over');
     this.lazyGetShower().start(this.when_showing);
+    this.head.tween('color', '#d1005d');
   },
   hide: function (e) {
     unevent(e);
     this.interrupt();
     this.lazyGetHider().start(this.when_hiding);
-    // this.container.get('morph').start(this.when_hiding).chain(this.finishHiding.bind(this));
+    this.head.tween('color', '#1bb68b');
   },
   hideSoon: function (e) {
     unevent(e);
