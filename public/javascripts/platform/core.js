@@ -41,7 +41,10 @@ Element.implement({
 });
 
 var unevent = function (e) {
-  if (e) new Event(e).stop();
+  if (e) {
+    new Event(e).stop();
+    if (e.target) e.target.blur();
+  }
 };
 
 
@@ -66,6 +69,7 @@ var Bouncer = new Class({
     this.setShownAndHiddenStates();
     this.setTriggers();
     this.afterInitialize();
+    this.visible = false;
   },
   setShownAndHiddenStates: function () {
     this.when_hiding = {'opacity' : 0};
@@ -76,9 +80,13 @@ var Bouncer = new Class({
     this.container.addEvent('mouseleave', this.hideSoon.bindWithEvent(this));
   },
   lazyGetShower: function () { if (!this.shower) this.getShower(); return this.shower; },
-  getShower: function () { this.shower = new Fx.Morph(this.container, {duration: '250', transition: Fx.Transitions.Back.easeOut, onComplete : this.afterShowing.bind(this)}); },
+  getShower: function () { this.shower = new Fx.Morph(this.container, {duration: this.durationIn(), transition: this.transitionIn(), onComplete : this.afterShowing.bind(this)}); },
   lazyGetHider: function () { if (!this.hider) this.getHider(); return this.hider; },
-  getHider: function () { this.hider = new Fx.Morph(this.container, {duration: '1000', transition: Fx.Transitions.Cubic.easeOut, onComplete : this.afterHiding.bind(this)}); },
+  getHider: function () { this.hider = new Fx.Morph(this.container, {duration: this.durationOut(), transition: this.transitionOut(), onComplete : this.afterHiding.bind(this)}); },
+  transitionIn: function () { return Fx.Transitions.Cubic.easeOut; },
+  transitionOut: function () { return Fx.Transitions.Cubic.easeOut; },
+  durationIn: function () { return 'short'; },
+  durationOut: function () { return 'long'; },
   show: function (e) {
     unevent(e);
     this.interrupt();
@@ -101,8 +109,8 @@ var Bouncer = new Class({
     if (this.shower) this.shower.cancel();
   },
   afterInitialize: function () {},
-  beforeShowing: function () { this.container.bringForward(); },
+  beforeShowing: function () { this.container.bringForward(); this.visible = true; },
   afterShowing: function () { },
   beforeHiding: function () { },
-  afterHiding: function () { }
+  afterHiding: function () { this.visible = false;  }
 });
