@@ -1,0 +1,14 @@
+ol.search {
+  margin: 30px 0; }
+  ol.search li {
+    margin: 20px 0; }
+    ol.search li a.result {
+      font-family: 'HelveticaNeue-Light', helvetica, arial, sans-serif;
+      font-size: 140%; }
+    ol.search li span.excerpt span.match {
+      font-weight: bold; }
+    ol.search li span.breadcrumbs {
+      font-family: helvetica, arial, sans-serif;
+      font-size: 0.8em;
+      line-height: 1.4;
+      color: #cacac8; }

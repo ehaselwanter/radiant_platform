@@ -82,3 +82,6 @@
 [submodule "vendor/extensions/sns_multisite"]
 	path = vendor/extensions/sns_multisite
 	url = git@github.com:spanner/radiant-sns-multisite-extension.git
+[submodule "vendor/extensions/sns_sass_filter"]
+	path = vendor/extensions/sns_sass_filter
+	url = git://github.com/SwankInnovations/radiant-sns-sass-filter-extension.git

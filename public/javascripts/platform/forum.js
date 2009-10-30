@@ -5,10 +5,10 @@ var Post = new Class({
     this.wrapper = div.getElement('div.post_wrapper');
     this.body_holder = div.getElement('div.post_body');
     this.h = this.body_holder.getHeight();
-    this.editor = div.getElement('a.edit_post');
-    if (this.editor) {
-      this.editor.addEvent('click', this.edit.bindWithEvent(this));
-    }
+    this.editors = this.container.getElements('a.edit_post');
+    this.editors.each(function (a) {
+      a.addEvent('click', this.edit.bindWithEvent(this));
+    }, this);
     this.showing = false;
     this.form_holder = null;
     this.form = null;
@@ -16,10 +16,11 @@ var Post = new Class({
   
   edit: function(e){
     unevent(e);
-    this.editor.addClass('waiting');
+    var link = e.target;
+    link.addClass('waiting');
     if (this.showing) this.cancel();
     else if (this.form_holder) this.prepForm();
-    else this.getForm(this.editor.get('href'));
+    else this.getForm(link.get('href'));
   },
   
   getForm: function (url) {
@@ -36,7 +37,7 @@ var Post = new Class({
   prepForm: function () {
     this.form_holder.inject(this.wrapper, 'top');
     this.body_holder.hide();
-    this.editor.removeClass('waiting');
+    this.editors.removeClass('waiting');
     this.form = this.form_holder.getElement('form');
     this.input = this.form.getElement('textarea');
     this.input.setStyle('height', this.h);
@@ -74,7 +75,7 @@ var Post = new Class({
   finishCancel: function () {
     this.form_holder.hide();
     this.body_holder.show();
-    this.editor.removeClass('waiting');
+    this.editors.removeClass('waiting');
     this.showing = false;
   },
   finishEdit: function () {
@@ -91,7 +92,6 @@ var UploadHandler = new Class({
     this.list = div.getElement('ul.attachments');
     this.pender = div.getElement('div.uploads');
     this.selector = div.getElement('div.selector');
-    this.attacher = div.getElement('div.hidden_attachments');
     this.file_field_template = this.selector.getElement('input').clone();
     this.file_pending_template = new Element('li');
 
@@ -101,25 +101,21 @@ var UploadHandler = new Class({
     this.uploads = [];
     this.uploader = this.selector.getElement('input');
     this.uploader.addEvent('change', this.addUpload.bindWithEvent(this));
+    this.fakelink = this.selector.getElement('a');
     
-    this.reveal = new Fx.Slide(this.attacher);
-    this.shower.addEvent('click', this.toggle.bindWithEvent(this));
-
-    this.reveal.hide();
+    // this.reveal.hide();
     uh = this;
-  },
-  toggle: function (e) {
-    unevent(e);
-    this.reveal.toggle();
   },
   addUpload: function (e) {
     unevent(e);
     this.uploads.push(new Upload(this));
-    this.resize();
+    this.fakelink.set('text', 'attach another file');
   },
   pendUpload: function (argument) {
-    var ul = this.uploader.clone().inject(this.pender);
+    var ul = this.uploader.inject(this.pender);
+    this.uploader = ul.clone().inject(this.selector);
     this.uploader.set('value', null);
+    this.uploader.addEvent('change', this.addUpload.bindWithEvent(this));
     return ul;
   },
   hasAttachments: function () {
@@ -127,9 +123,6 @@ var UploadHandler = new Class({
   },
   hasUploads: function () {
     return this.uploads.length > 0;
-  },
-  resize: function () {
-    this.reveal.slideIn();
   }
 });
 
@@ -142,15 +135,16 @@ var Upload = new Class({
     this.remover = new Element('a', {'class': 'remove', 'href': '#'}).set('text', 'remove').inject(this.container, 'bottom');
     this.remover.addEvent('click', this.remove.bindWithEvent(this));
     this.container.inject(this.handler.list, 'bottom');
+    this.container.set('morph', {duration : 'long'});
+    this.container.reveal();
   },
   icon_for: function (filename) {
-    return '/images/forum/icons/attachment_new.png';
+    return '/images/forum/attachment.png';
   },
   remove: function (e) {
     unevent(e);
     this.uploader.destroy();
     this.container.nix();
-    this.handler.resize();
   }
 });
 

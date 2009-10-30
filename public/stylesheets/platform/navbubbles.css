@@ -1,0 +1,10 @@
+ul.navbubbles{position:relative;font-family:helvetica,arial,sans-serif;font-size:12px;margin:0;padding:0;list-style:none;}
+ul.navbubbles li.mi{overflow:hidden;position:relative;white-space:nowrap;background-color:#ffffff;padding:0;margin:4px;}
+ul.navbubbles li.mi a{margin:5px;color:#e0ded8;}
+ul.navbubbles li.mi a:hover{color:#d1005d;}
+ul.navbubbles li.mi a.head:hover{color:#d1005d;}
+ul.navbubbles li.mi ul.sm{display:none;white-space:nowrap;}
+ul.navbubbles li.mi ul.sm li{display:inline;}
+ul.navbubbles li.mi ul.sm li a{color:#8c8d8e;}
+ul.navbubbles li.mi ul.sm li a:hover{color:#d1005d;}
+ul.navbubbles li.mi {font-weight:bold;}

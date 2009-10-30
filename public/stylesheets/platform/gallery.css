@@ -1,0 +1,27 @@
+div.captioner {
+  position: absolute;
+  visibility: hidden;
+  width: 128px;
+  background-color: #d1005d;
+  border: 8px solid #d1005d;
+  color: white;
+  line-height: 1.1;
+}
+
+div.captioner img {
+  width: 128px;
+  height: 128px;
+}
+
+div.captioner h4.title {
+  font-size: 12px;
+  line-height: 1.1;
+  margin: 2px 0 0 0;
+}
+
+div.captioner p.caption {
+  font-size: 12px;
+  line-height: 1.1;
+  margin: 0;
+  color: #d9a8be;
+}

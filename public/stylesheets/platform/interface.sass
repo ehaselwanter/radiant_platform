@@ -1,0 +1,331 @@
+!bcr = #1bb68b
+!bcr_dark = #1c8064
+!bcr_pale = #5bf0c6
+
+!calendar_social = !bcr_dark
+!calendar_race = #c00
+
+!dark = #4d4e53
+!mid = #afafaf
+!pale = #cacac8
+!verypale = #e0ded8
+
+!page = #ffffff
+!text = !dark
+!accent = !bcr
+!emphasis = #d1005d
+
+//layout variables
+!container_width = 1050px
+!page_width = 700px
+!margin_width = 240px
+!nav_width = 175px
+!header_font_size = 12px
+
+!rubinered = #d1005d
+!coolgrey1 = #e2e1dd
+!coolgrey2 = #d6d6d4
+!coolgrey3 = #cacac8
+!coolgrey4 = #bdbdbd
+!coolgrey5 = #b3b3b3
+!coolgrey6 = #afafaf
+!coolgrey7 = #9a9b9d
+!coolgrey8 = #8c8d8e
+!coolgrey9 = #747679
+!coolgrey10 = #616265
+!coolgrey11 = #4d4e53
+
+=bodyfonts
+  :font-family Georgia,Palatino,Sylfaen,"Times New Roman", Times, serif
+=headerfonts
+  :font-family 'HelveticaNeue-Light', helvetica, arial, sans-serif
+=heavyfonts
+  :font-family helvetica, arial, sans-serif
+  :font-weight bold
+=smallfonts
+  :font-family helvetica, arial, sans-serif
+  :font-size 0.8em 
+  :line-height 1.4
+=navigationfonts
+  :font-family helvetica, arial, sans-serif
+=inputstyles
+  :font-family Georgia,Palatino,Sylfaen,"Times New Roman", Times, serif
+  :font-size 1.2em
+  :line-height 1
+  :color = !dark
+  :border
+    :width 1px
+    :style solid
+    :color = !pale
+  :padding 5px
+
+body
+  :margin 0
+  :padding 0 
+  +bodyfonts
+  :font-size 0.9em
+  :line-height 1.6
+  :background-color = !page
+  :color = !text
+  :overflow-x hidden 
+
+///////////////////////////// basic text formatting
+
+a, a:link
+  :text-decoration none
+  :color = !accent
+a:hover
+  :color = !emphasis
+img
+  :border 0
+  :margin 0
+  :padding 0
+ul,ol
+  :color = !dark
+  li
+    :margin-bottom  4px
+ul
+  :padding-left 12px
+  :list-style square
+ol
+  :padding-left 16px
+blockquote
+  :margin-left 12px
+  :color = !pale
+h1, h2, h3, h4
+  +headerfonts
+  :margin-bottom 0
+  :letter-spacing -0.02em
+  :line-height  1.2
+label
+  +headerfonts
+  :font-size 16px
+ul.minimal
+  :list-style none
+    
+///////////////////////////// widely-used modifications
+
+.hidden
+  :display none
+.spaced
+  :margin-left 20px
+.has_error
+  :color red
+.pale
+  :color = !pale
+.small
+  +smallfonts
+  :color = !pale
+.notyet
+  :color = !pale
+  :text-decoration line-through
+.quiet
+  +smallfonts
+  :color = !pale
+.floatleft, .floatright
+  :margin 0 0 12px 0
+  +smallfonts
+  :font-size 10px
+  :color = !pale
+  :margin-right 20px
+  :margin-top 10px
+  :line-height 1.2
+.floatleft
+  :float left
+.floatright
+  :float right
+.standfirst
+  :font-weight bold
+.footnote
+  +smallfonts
+  :color = !pale
+
+///////////////////////////// layout
+
+#container
+  :position relative
+  :width = !container_width
+  :margin 25px auto 60px auto
+  :padding 0
+
+#header
+  :margin-left = !nav_width
+
+#navigation
+  :position absolute
+  :left 0
+  :top 32px
+  :width = !nav_width
+
+#page
+  :position relative
+  :width = !page_width
+  :margin-left 180px
+  :margin-top 30px
+  h1.pagetitle
+    :margin-top 1em
+    
+#marginalia
+  :width = !margin_width
+  :float right
+  :margin 0 0 20px 40px
+
+///////////////////////////// appearance
+
+body
+  +bodyfonts
+  :font-size 105%
+  :line-height 1.6
+
+#container.footprint
+  :background
+    :color = !page
+    :repeat no-repeat
+    :position top right
+    :image url(/assets/2/mudbg.jpg)
+
+#header 
+  p
+    +headerfonts
+    :font-size = !header_font_size
+    :margin 0
+
+#page
+  h1.pagetitle
+    +heavyfonts
+    :font-size 3em
+    :line-height 1
+    a.breadhead
+      :display block
+      :line-height .65
+      :letter-spacing -0.02em
+      :font-size 65%
+      :color =!pale
+
+///////////////////////////// marginalia
+
+#sidebar
+  :position relative
+  :float right
+  :z-index 3500
+  :margin 0
+  :padding-left 20px
+  :width = !margin_width
+  +smallfonts
+  :color = !dark
+  h2, h3, h4
+    :margin-top 0
+  ul
+    :padding 0
+    :margin 20px 0
+    li
+      :clear left
+      a
+        :font-weight bold
+  ul.minimal
+    :list-style none
+  
+///////////////////////////// footer and ps
+
+#breadcrumbs
+  :position relative
+  :clear both
+  :margin 20px 0 20px 0
+  +smallfonts
+  :color = !pale
+  
+#footer
+  :position relative
+  :width = !page_width
+  :height 38px
+  :margin 0 0 30px 0
+  :overflow hidden
+  :z-index 4590
+  #searchform
+    :float right
+    :padding 0 24px 0 0
+    :overflow hidden
+  p
+    :margin 8px 0 3px 32px
+    +smallfonts
+    :color = !verypale
+  a
+    :color = !pale
+
+    
+///////////////////////////// pictures
+
+div.illustration
+  :width = !margin_width
+  :float right
+  :margin 6px 0 24px 36px
+
+div.pictureframe
+  :width = 300px
+  :overflow hidden
+  :float right
+  :margin -30px 20px 12px 12px
+  :background
+    :position center 6px
+    :repeat no-repeat
+  p.caption
+    :margin 5px 20px 0 40px
+p.caption
+  +smallfonts
+  :color = !mid
+
+a.ical
+  :color #c00
+a.ical:hover
+  :color #c00
+
+div.event_list
+  p.event
+    :clear left
+    :line-height 1.2
+    :margin-bottom 1.5em
+    span.description
+      :display block
+    span.title, a.title
+      :font-size 140%
+    span.date
+      :display block
+      :overflow hidden
+      :float left
+      :width 24px
+      :padding 0
+      +heavyfonts
+      :text-align center
+      :margin 4px 12px 6px 0
+      :color = !coolgrey8
+      :border
+        :style solid
+        :width 1px
+        :color = !coolgrey8
+      span.dow
+        :display block
+        :overflow hidden
+        :padding 3px
+        :font-size 9px
+        :font-weight lighter
+        :line-height 1
+        :color white
+        :background-color = !coolgrey8
+      span.dom
+        :display block
+        :overflow hidden
+        :padding 3px 0 1px 0
+
+  p.social
+    :color = !calendar_social
+    a
+      :color = !calendar_social
+    a:hover
+      :color = !emphasis
+  p.races
+    :color = !calendar_race
+    a
+      :color = !calendar_race
+    a:hover
+      :color = !emphasis
+
