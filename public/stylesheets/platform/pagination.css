@@ -1,46 +1,26 @@
-/******** pagination ********/
-
 div.pagination {
+  margin: 30px 0;
   font-family: helvetica, arial, sans-serif;
-  font-size: .8em;
+}
+
+div.pagination a, div.pagination span.current {
+  padding: 6px 8px 6px 6px;
+  border-right: 1px solid #DEDEDE;
+}
+
+div.pagination a.next_page {
+  border: 0;
 }
 
 div.pagination span.separator{
   visibility: hidden;
 }
 
-span.pagination_summary {
+div.pagination span.summary {
   color: #cacac8;
   float: right;
 }
 
-p.pagination_summary a {
-  color: #8C8D8E;
-}
-
-div.pagination a {
-  padding: 6px 8px 5px 8px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-}
-
-div.pagination a:hover {
-  background-color: #1bb68b;
-  color: white;
-  text-decoration: none;
-}
-
-div.pagination span.current {
-  padding: 6px 8px 5px 8px;
-  margin-right: 2px;
-  background-color: #1c8064;
-  color: white;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-}
-
 div.pagination span.disabled {
-  padding: 6px 8px 5px 8px;
-  margin-right: 2px;
   color: #cacac8;
 }
