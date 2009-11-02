@@ -12,6 +12,7 @@ ul.cloud {
     letter-spacing: -0.04em;
     height: 1.6em; }
     ul.cloud li a {
+      white-space: nowrap;
       padding: 5px;
       color: !cloud_base; }
 
