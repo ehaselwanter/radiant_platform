@@ -17,8 +17,8 @@ div.pagination span.separator{
 }
 
 div.pagination span.summary {
+  display: block;
   color: #cacac8;
-  float: right;
 }
 
 div.pagination span.disabled {
