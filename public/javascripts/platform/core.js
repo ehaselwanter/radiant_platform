@@ -79,10 +79,11 @@ var Bouncer = new Class({
     this.container.addEvent('mouseenter', this.show.bindWithEvent(this));
     this.container.addEvent('mouseleave', this.hideSoon.bindWithEvent(this));
   },
+  activeElement: function () { return this.container; },
   lazyGetShower: function () { if (!this.shower) this.getShower(); return this.shower; },
-  getShower: function () { this.shower = new Fx.Morph(this.container, {duration: this.durationIn(), transition: this.transitionIn(), onComplete : this.afterShowing.bind(this)}); },
+  getShower: function () { this.shower = new Fx.Morph(this.activeElement(), {duration: this.durationIn(), transition: this.transitionIn(), onComplete : this.afterShowing.bind(this)}); },
   lazyGetHider: function () { if (!this.hider) this.getHider(); return this.hider; },
-  getHider: function () { this.hider = new Fx.Morph(this.container, {duration: this.durationOut(), transition: this.transitionOut(), onComplete : this.afterHiding.bind(this)}); },
+  getHider: function () { this.hider = new Fx.Morph(this.activeElement(), {duration: this.durationOut(), transition: this.transitionOut(), onComplete : this.afterHiding.bind(this)}); },
   transitionIn: function () { return Fx.Transitions.Cubic.easeOut; },
   transitionOut: function () { return Fx.Transitions.Cubic.easeOut; },
   durationIn: function () { return 'short'; },

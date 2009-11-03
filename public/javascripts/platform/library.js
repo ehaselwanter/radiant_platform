@@ -34,7 +34,7 @@ var ImageListItem = new Class({
     this.zoomer = null;
     this.container.addEvent('mouseover', this.showCaption.bindWithEvent(this));
     this.container.addEvent('mouseout', this.hideCaption.bindWithEvent(this));
-    this.image.fade(0.7);
+    this.image.fade(0.4);
   },
   showCaption: function (e) {
     unevent(e);

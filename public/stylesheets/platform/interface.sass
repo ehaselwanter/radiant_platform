@@ -27,10 +27,14 @@
 !main_width = 500px
 !margin_width = 240px
 
+
 =bodyfonts
   :font-family Georgia,Palatino,Sylfaen,"Times New Roman", Times, serif
 =headerfonts
   :font-family 'HelveticaNeue-Light', helvetica, arial, sans-serif
+=heavyfonts
+  :font-family helvetica, arial, sans-serif
+  :font-weight bold
 =smallfonts
   :font-family helvetica, arial, sans-serif
   :font-size 0.8em 
@@ -510,3 +514,55 @@ h2.lastfew
     :padding 6px 0 0 70px
     :maring-left 32px
     :color #a34138
+
+
+#sidebar
+  a.banner
+    :display block
+    :position relative
+    :width = !margin_width
+    :height 200px
+    :margin 0 12px
+    :-moz-border-radius 5px
+    :-webkit-border-radius 5px
+    :background
+      :color white
+      :position center center
+      :repeat no-repeat
+    .caption
+      :position absolute
+      :bottom 0
+      :left 0
+      :height 46px
+      :width 100%
+      :overflow hidden
+      .background
+        :position relative
+        :width 100%
+        :height 100%
+        :background-color #4D4E53
+        :opacity 0.4
+        :-moz-border-radius-bottomleft 5px
+        :-webkit-border-bottom-left-radius 5px
+        :-moz-border-radius-bottomright 5px
+        :-webkit-border-bottom-right-radius 5px
+      .content
+        :position absolute
+        :top 0
+        :left 0
+        :width 100%
+        :height 100%
+        :text-align center
+        :line-height 1.2
+        :color white
+        h3
+          +headerfonts
+          :font-size 18px
+          :font-weight lighter
+          :margin 6px 6px 0 6px
+        p
+          +heavyfonts
+          :font-size 12px
+          :margin 0 6px 6px 6px
+
+
