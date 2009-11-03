@@ -4,7 +4,10 @@ var Banner = new Class({
     this.caption = element.getElement('div.caption');
     this.parent(element);
   },
-  afterInitialize: function () { this.hide(); },
+  afterInitialize: function () { 
+    this.caption.fade(0.6);
+    this.hide(); 
+  },
   activeElement: function () { return this.caption; },
   durationIn: function () { return 100; },
   setShownAndHiddenStates: function () {
