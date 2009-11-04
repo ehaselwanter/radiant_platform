@@ -1,4 +1,3 @@
-var tabs=[];
 var tabsets={};
 
 var Tab = new Class({
@@ -12,11 +11,9 @@ var Tab = new Class({
     this.tabset = tabsets[this.settag] || new TabSet(this.settag);
     this.tabset.addTab(this);
     this.tabhead.onclick = this.select.bindWithEvent(this);
-    tabs.push(this);
   },
   select: function (e) {
-    if (e) new Event(e).stop();
-    this.tabhead.blur();
+    unevent(e);
     this.tabset.select(this);
   },
   show: function(){
