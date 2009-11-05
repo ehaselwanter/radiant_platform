@@ -5,7 +5,7 @@ var Shiner = new Class({
     this.parent(element);
   },
   setShownAndHiddenStates: function () {
-    this.when_hiding = {'opacity' : 0.3};
+    this.when_hiding = {'opacity' : 0.6};
     this.when_showing = {'opacity' : 1};
   },
   activeElement: function () { return this.foreground; },
