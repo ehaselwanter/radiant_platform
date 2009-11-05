@@ -1,72 +1,72 @@
 [submodule "vendor/extensions/paperclipped"]
 	path = vendor/extensions/paperclipped
-	url = git@github.com:spanner/paperclipped.git
+	url = git://github.com:spanner/paperclipped.git
 [submodule "vendor/extensions/reader"]
 	path = vendor/extensions/reader
-	url = git@github.com:spanner/radiant-reader-extension.git
+	url = git://github.com:spanner/radiant-reader-extension.git
 [submodule "vendor/extensions/submenu"]
 	path = vendor/extensions/submenu
-	url = git@github.com:spanner/radiant-submenu-extension.git
+	url = git://github.com:spanner/radiant-submenu-extension.git
 [submodule "vendor/extensions/forum"]
 	path = vendor/extensions/forum
-	url = git@github.com:spanner/radiant-forum-extension.git
+	url = git://github.com:spanner/radiant-forum-extension.git
 [submodule "vendor/extensions/taggable"]
 	path = vendor/extensions/taggable
-	url = git@github.com:spanner/radiant-taggable-extension.git
+	url = git://github.com:spanner/radiant-taggable-extension.git
 [submodule "vendor/extensions/reader_group"]
 	path = vendor/extensions/reader_group
-	url = git@github.com:spanner/radiant-reader_group-extension.git
+	url = git://github.com:spanner/radiant-reader_group-extension.git
 [submodule "vendor/extensions/group_forum"]
 	path = vendor/extensions/group_forum
-	url = git@github.com:spanner/radiant-group_forum-extension.git
+	url = git://github.com:spanner/radiant-group_forum-extension.git
 [submodule "vendor/extensions/podcast_page"]
 	path = vendor/extensions/podcast_page
-	url = git@github.com:spanner/radiant-podcast_page-extension.git
+	url = git://github.com:spanner/radiant-podcast_page-extension.git
 [submodule "vendor/extensions/rss_page"]
 	path = vendor/extensions/rss_page
-	url = git@github.com:spanner/radiant-rss_page-extension.git
+	url = git://github.com:spanner/radiant-rss_page-extension.git
 [submodule "vendor/extensions/made_easy"]
 	path = vendor/extensions/made_easy
-	url = git@github.com:spanner/radiant-made_easy-extension.git
+	url = git://github.com:spanner/radiant-made_easy-extension.git
 [submodule "vendor/extensions/mailer"]
 	path = vendor/extensions/mailer
-	url = git@github.com:spanner/radiant-mailer-extension.git
+	url = git://github.com:spanner/radiant-mailer-extension.git
 [submodule "vendor/extensions/paperclipped_uploader"]
 	path = vendor/extensions/paperclipped_uploader
-	url = git@github.com:spanner/radiant-paperclipped_uploader-extension.git
+	url = git://github.com:spanner/radiant-paperclipped_uploader-extension.git
 [submodule "vendor/extensions/event_calendar"]
 	path = vendor/extensions/event_calendar
-	url = git@github.com:radiant/radiant-event-calendar-extension.git
+	url = git://github.com:radiant/radiant-event-calendar-extension.git
 [submodule "vendor/extensions/useful"]
 	path = vendor/extensions/useful
-	url = git@github.com:spanner/radiant-useful-extension.git
+	url = git://github.com:spanner/radiant-useful-extension.git
 [submodule "vendor/extensions/paperclipped_player"]
 	path = vendor/extensions/paperclipped_player
-	url = git@github.com:spanner/radiant-paperclipped_player-extension.git
+	url = git://github.com:spanner/radiant-paperclipped_player-extension.git
 [submodule "vendor/extensions/share_layouts"]
 	path = vendor/extensions/share_layouts
-	url = git@github.com:spanner/radiant-share-layouts-extension.git
+	url = git://github.com:spanner/radiant-share-layouts-extension.git
 [submodule "vendor/extensions/downloads"]
 	path = vendor/extensions/downloads
-	url = git@github.com:spanner/radiant-downloads-extension.git
+	url = git://github.com:spanner/radiant-downloads-extension.git
 [submodule "vendor/extensions/sass_filter"]
 	path = vendor/extensions/sass_filter
 	url = git://github.com/radiant/radiant-sass-filter-extension.git
 [submodule "vendor/extensions/textile_editor"]
 	path = vendor/extensions/textile_editor
-	url = git@github.com:spanner/radiant-textile_editor-extension.git
+	url = git://github.com:spanner/radiant-textile_editor-extension.git
 [submodule "vendor/extensions/sphinx_search"]
 	path = vendor/extensions/sphinx_search
-	url = git@github.com:spanner/radiant-sphinx-search-extension.git
+	url = git://github.com:spanner/radiant-sphinx-search-extension.git
 [submodule "vendor/extensions/multi_site"]
 	path = vendor/extensions/multi_site
-	url = git@github.com:spanner/radiant-multi-site-extension.git
+	url = git://github.com:spanner/radiant-multi-site-extension.git
 [submodule "vendor/extensions/scoped_admin"]
 	path = vendor/extensions/scoped_admin
-	url = git@github.com:spanner/radiant-scoped-admin-extension.git
+	url = git://github.com:spanner/radiant-scoped-admin-extension.git
 [submodule "vendor/extensions/paperclipped_multi_site"]
 	path = vendor/extensions/paperclipped_multi_site
-	url = git@github.com:spanner/radiant-paperclipped_multisite-extension.git
+	url = git://github.com:spanner/radiant-paperclipped_multisite-extension.git
 [submodule "vendor/extensions/sns"]
 	path = vendor/extensions/sns
 	url = git://github.com/SwankInnovations/radiant-sns-extension.git
@@ -78,10 +78,10 @@
 	url = git://github.com/SwankInnovations/radiant-sns-sass-filter-extension.git
 [submodule "vendor/extensions/sns_multisite"]
 	path = vendor/extensions/sns_multisite
-	url = git@github.com:spanner/radiant-sns-multisite-extension.git
+	url = git://github.com:spanner/radiant-sns-multisite-extension.git
 [submodule "vendor/extensions/sns_sass_filter"]
 	path = vendor/extensions/sns_sass_filter
 	url = git://github.com/SwankInnovations/radiant-sns-sass-filter-extension.git
 [submodule "vendor/extensions/library"]
 	path = vendor/extensions/library
-	url = git@github.com:spanner/radiant-library-extension.git
+	url = git://github.com:spanner/radiant-library-extension.git
