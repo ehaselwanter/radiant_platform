@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090929164633) do
+ActiveRecord::Schema.define(:version => 20081203140407) do
 
   create_table "activities", :force => true do |t|
     t.string   "title"
@@ -34,13 +34,21 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "site_id"
+    t.boolean  "furniture",          :default => false
+    t.string   "upload_token"
   end
 
   create_table "calendars", :force => true do |t|
-    t.string "name"
-    t.text   "description"
-    t.string "category"
-    t.string "slug"
+    t.string   "name"
+    t.text     "description"
+    t.string   "category"
+    t.string   "slug"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "lock_version"
+    t.integer  "site_id"
   end
 
   create_table "config", :force => true do |t|
@@ -79,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.string   "location"
     t.integer  "calendar_id"
     t.string   "url"
+    t.integer  "site_id"
   end
 
   create_table "extension_meta", :force => true do |t|
@@ -104,11 +113,8 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.integer  "reader_id"
     t.integer  "site_id"
     t.integer  "replied_by_id"
-  end
-
-  create_table "forums_groups", :id => false, :force => true do |t|
-    t.integer "forum_id"
-    t.integer "group_id"
+    t.integer  "old_id"
+    t.integer  "group_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -124,24 +130,16 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.integer  "lock_version"
   end
 
-  create_table "groups_pages", :id => false, :force => true do |t|
-    t.integer "group_id"
-    t.integer "page_id"
-  end
-
-  create_table "groups_readers", :id => false, :force => true do |t|
-    t.integer "group_id"
-    t.integer "reader_id"
-  end
-
   create_table "icals", :force => true do |t|
     t.integer  "calendar_id"
-    t.string   "ical_url"
+    t.string   "url"
     t.integer  "last_refresh_count"
     t.datetime "last_refresh_date"
-    t.string   "ical_username"
-    t.string   "ical_password"
-    t.integer  "ical_refresh_interval"
+    t.string   "username"
+    t.string   "password"
+    t.boolean  "use_https"
+    t.integer  "refresh_interval"
+    t.integer  "site_id"
   end
 
   create_table "labellings", :force => true do |t|
@@ -174,6 +172,33 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.integer  "lock_version",                     :default => 0
     t.string   "default_filter_id", :limit => 25
     t.integer  "site_id"
+  end
+
+  create_table "memberships", :force => true do |t|
+    t.integer "group_id"
+    t.integer "reader_id"
+  end
+
+  create_table "message_readers", :force => true do |t|
+    t.integer  "site_id"
+    t.integer  "message_id"
+    t.integer  "reader_id"
+    t.datetime "sent_at"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "subject"
+    t.text     "body"
+    t.text     "filter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "lock_version"
+    t.string   "function_id"
+    t.integer  "status_id",     :default => 1
+    t.integer  "group_id"
   end
 
   create_table "moderatorships", :force => true do |t|
@@ -223,12 +248,20 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.string   "keywords"
     t.boolean  "commentable"
     t.boolean  "comments_closed"
+    t.boolean  "searchable",                     :default => true
+    t.boolean  "delta",                          :default => false
   end
 
   add_index "pages", ["class_name"], :name => "pages_class_name"
   add_index "pages", ["parent_id"], :name => "pages_parent_id"
+  add_index "pages", ["searchable"], :name => "index_pages_on_searchable"
   add_index "pages", ["slug", "parent_id"], :name => "pages_child_slug"
   add_index "pages", ["virtual", "status_id"], :name => "pages_published"
+
+  create_table "permissions", :force => true do |t|
+    t.integer "group_id"
+    t.integer "page_id"
+  end
 
   create_table "post_attachments", :force => true do |t|
     t.integer  "post_id"
@@ -254,6 +287,8 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.integer  "site_id"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
+    t.integer  "old_id"
+    t.integer  "group_id"
   end
 
   add_index "posts", ["forum_id", "created_at"], :name => "index_posts_on_forum_id"
@@ -264,7 +299,7 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.string   "name",                    :limit => 100
     t.string   "email"
     t.string   "login",                   :limit => 40,  :default => "",    :null => false
-    t.string   "password",                :limit => 40
+    t.string   "crypted_password"
     t.text     "description"
     t.text     "notes"
     t.boolean  "trusted",                                :default => true
@@ -274,17 +309,33 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.string   "salt"
+    t.string   "password_salt"
     t.string   "session_token"
-    t.string   "activation_code"
     t.string   "provisional_password"
     t.datetime "activated_at"
     t.string   "honorific"
     t.integer  "user_id"
-    t.datetime "last_seen"
-    t.datetime "last_login"
-    t.datetime "previous_login"
+    t.datetime "last_request_at"
+    t.datetime "last_login_at"
     t.integer  "posts_count",                            :default => 0
+    t.string   "persistence_token",                      :default => "",    :null => false
+    t.string   "single_access_token",                    :default => "",    :null => false
+    t.string   "perishable_token",                       :default => "",    :null => false
+    t.integer  "login_count",                            :default => 0,     :null => false
+    t.integer  "failed_login_count",                     :default => 0,     :null => false
+    t.string   "current_login_ip"
+    t.string   "last_login_ip"
+    t.string   "clear_password"
+    t.string   "forename"
+    t.string   "phone"
+    t.string   "organisation"
+    t.string   "post_building"
+    t.string   "post_street"
+    t.string   "post_place"
+    t.string   "post_town"
+    t.string   "post_county"
+    t.string   "postcode"
+    t.integer  "old_id"
   end
 
   add_index "readers", ["session_token"], :name => "session_token"
@@ -344,6 +395,7 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.string   "mail_from_name"
     t.string   "mail_from_address"
     t.integer  "forum_layout_id"
+    t.string   "abbreviation"
   end
 
   create_table "snippets", :force => true do |t|
@@ -383,6 +435,59 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.datetime "updated_at"
   end
 
+  create_table "submenu_links", :force => true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "submenu_links", ["site_id", "user_id"], :name => "index_links_by_site_and_user"
+
+  create_table "taggings", :force => true do |t|
+    t.integer "tag_id"
+    t.string  "tagged_type"
+    t.integer "tagged_id"
+  end
+
+  add_index "taggings", ["tag_id", "tagged_id", "tagged_type"], :name => "index_taggings_on_tag_id_and_tagged_id_and_tagged_type", :unique => true
+
+  create_table "tags", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "site_id"
+  end
+
+  add_index "tags", ["title"], :name => "index_tags_on_title", :unique => true
+
+  create_table "text_asset_dependencies", :force => true do |t|
+    t.integer  "text_asset_id"
+    t.string   "names"
+    t.datetime "effectively_updated_at"
+  end
+
+  create_table "text_assets", :force => true do |t|
+    t.string   "class_name",    :limit => 25
+    t.string   "name",          :limit => 100
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "lock_version"
+    t.string   "filter_id",     :limit => 25
+    t.integer  "site_id"
+    t.boolean  "minify"
+  end
+
   create_table "topics", :force => true do |t|
     t.integer  "forum_id"
     t.integer  "user_id"
@@ -401,6 +506,8 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.integer  "site_id"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
+    t.integer  "old_id"
+    t.integer  "group_id"
   end
 
   add_index "topics", ["forum_id", "replied_at"], :name => "index_topics_on_forum_id_and_replied_at"
@@ -439,7 +546,7 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.boolean  "admin",                               :default => false, :null => false
-    t.boolean  "designer",                            :default => false, :null => false
+    t.boolean  "developer",                           :default => false, :null => false
     t.text     "notes"
     t.integer  "lock_version",                        :default => 0
     t.string   "salt"
@@ -455,7 +562,5 @@ ActiveRecord::Schema.define(:version => 20090929164633) do
     t.string   "honorific"
     t.integer  "site_id"
   end
-
-  add_index "users", ["login"], :name => "login", :unique => true
 
 end
