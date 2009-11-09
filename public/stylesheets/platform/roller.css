@@ -1,0 +1,25 @@
+div#product_holder {
+  clear: both;
+}
+
+div#product_scroller {
+  position: relative;
+}
+
+div#product_container {
+  position: relative;
+}
+
+div#product_container div.roller {
+  margin-right: 40px;
+  float: left;
+}
+
+
+div#productleft {
+  position: absolute;
+}
+
+div#productright {
+  position: absolute;  
+}

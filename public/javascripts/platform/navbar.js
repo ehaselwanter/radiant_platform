@@ -11,8 +11,8 @@ var NavBar = new Class({
   durationIn: function () { return 'normal'; },
   durationOut: function () { return 'long'; },
   setShownAndHiddenStates: function () {
-    this.when_hiding = {'height' : this.closeto};
-    this.when_showing = {'height' : this.opento};
+    this.when_hiding = {'height' : this.closeto, 'background-color' : '#924e73'};
+    this.when_showing = {'height' : this.opento, 'background-color' : '#d1005d'};
   },
   afterInitialize: function () { this.hide(); },
   beforeShowing: function () { this.container.addClass('open'); this.visible = true; },
