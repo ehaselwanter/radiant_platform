@@ -6,7 +6,7 @@ namespace :radiant do
     desc "Run all extension migrations in a sequence that respects their dependencies"
     task :migrate => :environment do
       require 'radiant/extension_migrator'
-      %w{made_easy reader forum taggable paperclipped}.each do |t| 
+      %w{made_easy multi_site reader forum taggable paperclipped sphinx_search sns}.each do |t| 
         task = "radiant:extensions:#{t}:migrate"
         Rake::Task[task].invoke
       end

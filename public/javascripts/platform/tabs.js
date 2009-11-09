@@ -1,4 +1,3 @@
-var tabs=[];
 var tabsets={};
 
 var Tab = new Class({
@@ -9,14 +8,18 @@ var Tab = new Class({
     this.tag = parts.pop();
     this.settag = parts.pop();
     this.tabbody = $(this.settag + '_' + this.tag);
+    this.findOrCreateSet();
+    this.setTriggers();
+  },
+  findOrCreateSet: function (argument) {
     this.tabset = tabsets[this.settag] || new TabSet(this.settag);
     this.tabset.addTab(this);
+  },
+  setTriggers: function () {
     this.tabhead.onclick = this.select.bindWithEvent(this);
-    tabs.push(this);
   },
   select: function (e) {
-    if (e) new Event(e).stop();
-    this.tabhead.blur();
+    unevent(e);
     this.tabset.select(this);
   },
   show: function(){
@@ -39,8 +42,7 @@ var TabSet = new Class({
   addTab: function (tab) {
     this.tabs.push(tab);
     if (this.tabs.length == 1) {
-      tab.show();
-      this.foreground = tab;
+      this.select(tab);
     } else {
       tab.hide();
     }
@@ -54,6 +56,24 @@ var TabSet = new Class({
         t.hide();
       }
     }, this);
+  },
+  showNext: function (e) {
+    unevent(e);
+    this.select(this.tabAfter(this.foreground));
+  },
+  showPrev: function (e) {
+    unevent(e);
+    this.select(this.tabBefore(this.foreground));
+  },
+  tabAfter: function (tab) {
+    var pos = this.tabs.indexOf(tab);
+    var after = (pos == -1 || pos == this.tabs.length-1) ? this.tabs[0] : this.tabs[pos+1];
+    return after;
+  },
+  tabBefore: function (tab) {
+    var pos = this.tabs.indexOf(tab);
+    var before = (pos == -1 || pos == 0) ? this.tabs[this.tabs.length-1] : this.tabs[pos-1];
+    return before;
   }
 });
 
