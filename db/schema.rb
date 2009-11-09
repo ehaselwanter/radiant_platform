@@ -11,6 +11,18 @@
 
 ActiveRecord::Schema.define(:version => 20081203140407) do
 
+  create_table "activities", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.float    "goal"
+    t.float    "match_threshold", :default => 0.0
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "date"
+  end
+
   create_table "assets", :force => true do |t|
     t.string   "caption"
     t.string   "title"
@@ -21,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "updated_by_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "upload_token"
-    t.boolean  "furniture",          :default => false
     t.integer  "site_id"
+    t.boolean  "furniture",          :default => false
+    t.string   "upload_token"
   end
 
   create_table "calendars", :force => true do |t|
@@ -40,8 +52,9 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   end
 
   create_table "config", :force => true do |t|
-    t.string "key",   :limit => 40, :default => "", :null => false
+    t.string "key",         :limit => 40, :default => "", :null => false
     t.text   "value"
+    t.text   "description"
   end
 
   add_index "config", ["key"], :name => "key", :unique => true
@@ -85,23 +98,24 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
 
   create_table "forums", :force => true do |t|
     t.string   "name"
-    t.text     "description"
-    t.integer  "site_id"
-    t.integer  "topics_count",  :default => 0
-    t.integer  "posts_count",   :default => 0
+    t.string   "description"
+    t.integer  "topics_count",     :default => 0
+    t.integer  "posts_count",      :default => 0
     t.integer  "position"
-    t.integer  "lock_version",  :default => 0
+    t.text     "description_html"
+    t.integer  "filter_id"
+    t.integer  "lock_version",     :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.integer  "reader_id"
     t.boolean  "for_comments"
+    t.integer  "reader_id"
+    t.integer  "site_id"
+    t.integer  "replied_by_id"
     t.integer  "old_id"
     t.integer  "group_id"
   end
-
-  add_index "forums", ["site_id"], :name => "index_forums_on_site_id"
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -183,8 +197,8 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "updated_by_id"
     t.integer  "lock_version"
     t.string   "function_id"
-    t.integer  "group_id"
     t.integer  "status_id",     :default => 1
+    t.integer  "group_id"
   end
 
   create_table "moderatorships", :force => true do |t|
@@ -196,23 +210,8 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
 
   create_table "monitorships", :force => true do |t|
     t.integer "topic_id"
-    t.integer "user_id"
-    t.boolean "active",   :default => false
-  end
-
-  create_table "old_page_attachments", :force => true do |t|
-    t.string   "content_type"
-    t.string   "filename"
-    t.integer  "size"
-    t.integer  "parent_id"
-    t.string   "thumbnail"
-    t.integer  "width"
-    t.integer  "height"
-    t.datetime "created_at"
-    t.integer  "created_by"
-    t.datetime "updated_at"
-    t.integer  "updated_by"
-    t.integer  "page_id"
+    t.integer "reader_id"
+    t.boolean "active",    :default => false
   end
 
   create_table "page_attachments", :force => true do |t|
@@ -247,9 +246,8 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "lock_version",                   :default => 0
     t.string   "description"
     t.string   "keywords"
-    t.integer  "position"
-    t.boolean  "commentable",                    :default => true
-    t.boolean  "comments_closed",                :default => false
+    t.boolean  "commentable"
+    t.boolean  "comments_closed"
     t.boolean  "searchable",                     :default => true
     t.boolean  "delta",                          :default => false
   end
@@ -278,13 +276,15 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   end
 
   create_table "posts", :force => true do |t|
-    t.integer  "reader_id"
+    t.integer  "user_id"
     t.integer  "topic_id"
-    t.integer  "forum_id"
-    t.integer  "site_id"
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "forum_id"
+    t.text     "body_html"
+    t.integer  "reader_id"
+    t.integer  "site_id"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "old_id"
@@ -292,8 +292,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   end
 
   add_index "posts", ["forum_id", "created_at"], :name => "index_posts_on_forum_id"
-  add_index "posts", ["reader_id", "created_at"], :name => "index_posts_on_reader_id"
-  add_index "posts", ["site_id"], :name => "index_posts_on_site_id"
+  add_index "posts", ["user_id", "created_at"], :name => "index_posts_on_user_id"
 
   create_table "readers", :force => true do |t|
     t.integer  "site_id"
@@ -318,16 +317,15 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "user_id"
     t.datetime "last_request_at"
     t.datetime "last_login_at"
-    t.string   "persistence_token",                                         :null => false
-    t.string   "single_access_token",                                       :null => false
-    t.string   "perishable_token",                                          :null => false
+    t.integer  "posts_count",                            :default => 0
+    t.string   "persistence_token",                      :default => "",    :null => false
+    t.string   "single_access_token",                    :default => "",    :null => false
+    t.string   "perishable_token",                       :default => "",    :null => false
     t.integer  "login_count",                            :default => 0,     :null => false
     t.integer  "failed_login_count",                     :default => 0,     :null => false
     t.string   "current_login_ip"
     t.string   "last_login_ip"
     t.string   "clear_password"
-    t.integer  "posts_count",                            :default => 0
-    t.integer  "old_id"
     t.string   "forename"
     t.string   "phone"
     t.string   "organisation"
@@ -337,9 +335,26 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "post_town"
     t.string   "post_county"
     t.string   "postcode"
+    t.integer  "old_id"
   end
 
   add_index "readers", ["session_token"], :name => "session_token"
+
+  create_table "segments", :force => true do |t|
+    t.string   "title"
+    t.integer  "activity_id"
+    t.integer  "position"
+    t.float    "value"
+    t.float    "size",          :default => 1.0
+    t.text     "description"
+    t.boolean  "special",       :default => false
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "segments", ["activity_id", "position"], :name => "index_segments_on_event_and_position"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id"
@@ -349,6 +364,21 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "shortcuts", :force => true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.string   "label"
+    t.string   "help_url"
+    t.string   "help_label"
+    t.boolean  "admin",      :default => false
+    t.integer  "site_id"
+    t.integer  "position"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "sites", :force => true do |t|
     t.string   "name"
@@ -361,11 +391,11 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "updated_by_id"
     t.datetime "updated_at"
     t.string   "subtitle"
-    t.string   "abbreviation"
     t.integer  "reader_layout_id"
     t.string   "mail_from_name"
     t.string   "mail_from_address"
     t.integer  "forum_layout_id"
+    t.string   "abbreviation"
   end
 
   create_table "snippets", :force => true do |t|
@@ -381,6 +411,29 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   end
 
   add_index "snippets", ["name"], :name => "name", :unique => true
+
+  create_table "sponsors", :force => true do |t|
+    t.string   "title"
+    t.string   "email"
+    t.text     "description"
+    t.boolean  "giftaider"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sponsorships", :force => true do |t|
+    t.integer  "sponsor_id"
+    t.integer  "segment_id"
+    t.text     "description"
+    t.integer  "value"
+    t.integer  "status",        :default => 0
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "submenu_links", :force => true do |t|
     t.string   "name"
@@ -437,20 +490,20 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
 
   create_table "topics", :force => true do |t|
     t.integer  "forum_id"
-    t.integer  "site_id"
-    t.integer  "reader_id"
+    t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "replied_at"
     t.integer  "hits",          :default => 0
-    t.boolean  "sticky",        :default => false
+    t.integer  "sticky",        :default => 0
     t.integer  "posts_count",   :default => 0
-    t.integer  "first_post_id"
-    t.integer  "last_post_id"
+    t.datetime "replied_at"
     t.boolean  "locked",        :default => false
     t.integer  "replied_by_id"
+    t.integer  "last_post_id"
     t.integer  "page_id"
+    t.integer  "reader_id"
+    t.integer  "site_id"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "old_id"
@@ -461,7 +514,6 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   add_index "topics", ["forum_id", "sticky", "replied_at"], :name => "index_topics_on_sticky_and_replied_at"
   add_index "topics", ["forum_id"], :name => "index_topics_on_forum_id"
   add_index "topics", ["page_id"], :name => "index_topics_on_page_id"
-  add_index "topics", ["site_id"], :name => "index_topics_on_site_id"
 
   create_table "user_config", :force => true do |t|
     t.integer  "user_id"
@@ -498,6 +550,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.text     "notes"
     t.integer  "lock_version",                        :default => 0
     t.string   "salt"
+    t.string   "session_token"
     t.integer  "posts_count",                         :default => 0
     t.text     "description"
     t.text     "description_html"
@@ -506,7 +559,6 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "provisional_password"
     t.string   "plaintext_password"
     t.datetime "activated_at"
-    t.string   "session_token"
     t.string   "honorific"
     t.integer  "site_id"
   end
