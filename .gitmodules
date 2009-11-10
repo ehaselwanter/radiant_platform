@@ -85,3 +85,6 @@
 [submodule "vendor/extensions/library"]
 	path = vendor/extensions/library
 	url = git@github.com:spanner/radiant-library-extension.git
+[submodule "vendor/extensions/paperclipped_gps"]
+	path = vendor/extensions/paperclipped_gps
+	url = git@github.com:spanner/radiant-paperclipped_gps-extension.git
