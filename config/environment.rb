@@ -19,7 +19,7 @@ Radiant::Initializer.run do |config|
   # extensions in vendor/extensions are loaded, in alphabetical order. :all
   # can be used as a placeholder for all extensions not explicitly named.
   # config.extensions = [ :all ]
-	config.extensions = [ :share_layouts, :multi_site, :submenu, :taggable, :reader, :reader_group, :paperclipped, :all ]
+	config.extensions = [ :share_layouts, :multi_site, :submenu, :taggable, :reader, :reader_group, :paperclipped, :paperclipped_gps, :all ]
 
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
