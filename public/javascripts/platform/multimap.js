@@ -12,16 +12,21 @@ var MMap = new Class({
     this.viewer.setAllowedZoomFactors(13, 15);
     this.routes = [];
     this.points = [];
-    this.container.getElement('a.route').each(function (a) { 
+    this.container.getElements('a.route').each(function (a) { 
       this.routes.push(new Route(a, this)); 
       a.dispose(); 
     }, this);
   },
+  domify: function (string) {
+    return this.viewer.parseXML( string );
+  },
   displayRoute: function (route) {
-    this.viewer.addOverlay(route.polyline);
+    var line = route.buildPolyLine();
+    this.viewer.addOverlay(line);
     route.markers.each(function (m) {
-      this.viewer.createMarker( m.point, { 'text' : m.mark, 'label' : m.label} ).setInfoBoxContent("<p>" + m.label + "</p>");
-    });
+      var mark = this.viewer.createMarker( m.point, {'text' : m.mark});
+      if (m.label) mark.setInfoBoxContent("<p>" + m.label + "</p>");
+    }, this);
     this.points.extend(route.points);
     this.reposition();
   },
@@ -32,33 +37,42 @@ var MMap = new Class({
 
 var Route = new Class ({
   initialize: function (element, mmap) { 
+    this.mmap = mmap;
     this.url = element.get('href');
     this.title = element.get('text');
     this.points = [];
     this.markers = [];
     this.polyline = null;
-    new Request({url : this.url, onSuccess : this.parseGPX.bind(this)});
+    this.request = new Request({method : 'GET', url : this.url, onSuccess : this.parseGPX.bind(this)});
+    this.request.send();
   },
-  parseGPX: function (responseText, responseXML) {
-    var elements = responseXML.documentElement.getElementsByTagName( 'trkpt' );
-    if (elements.length == 0) elements = responseXML.documentElement.getElementsByTagName('rtept');
-    elements.each(function (element) {
-      var lat = parseFloat(element.getAttribute('lat'));
-      var lon = parseFloat(element.getAttribute('lon'));
+  parseGPX: function (response) {
+    var gpx = this.mmap.domify( response );
+    elements = gpx.documentElement.getElementsByTagName('trkpt');
+    if (elements.length == 0) elements = gpx.documentElement.getElementsByTagName('rtept');
+
+    // elements is a NodeList, not an array, and doesn't each().
+    for( var i = 0; i < elements.length && i < 1000; ++i ) {
+      el = elements[i];
+      var lat = parseFloat(el.getAttribute('lat'));
+      var lon = parseFloat(el.getAttribute('lon'));
       var point = new MMLatLon( lat, lon);
-      var name_element = element.getElementsByTagName('name')[0];
+      var name_element = el.getElementsByTagName('name')[0];
       this.points.push(point);
-      var label = name_element ? name_element.firstChild.nodeValue : element.getAttribute('title');
-      if (label && !label.match(/^WP/)) this.addLabel(point, '!', label);
-    }, this);
-    this.addLabel(this.points.first, '>');
-    this.addLabel(this.points.getLast(), '@');
+      var label = name_element ? name_element.firstChild.nodeValue : el.getAttribute('title');
+      if (label && !label.match(/^WP/)) this.addMarker(point, '!', label);
+    };
+    if (this.points.length > 0) {
+      this.addMarker(this.points[0], '>', 'start');
+      this.addMarker(this.points.getLast(), '@', 'finish');
+    }    
     this.display();
   },
-  addLabel: function (point, mark, label) {
+  addMarker: function (point, mark, label) {
+    if (!label) label = "";
     this.markers.push( {'point' : point, 'mark' : mark, 'label' : label} );
   },
-  polyLine: function () {
+  buildPolyLine: function () {
     if (!this.polyline) this.polyline = new MMPolyLineOverlay( this.points, undefined, 0.4, 1, false, undefined );
     return this.polyline;
   },
