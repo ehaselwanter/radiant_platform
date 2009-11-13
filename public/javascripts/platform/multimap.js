@@ -25,7 +25,11 @@ var MMap = new Class({
     this.viewer.addOverlay(line);
     route.markers.each(function (m) {
       var mark = this.viewer.createMarker( m.point, {'text' : m.mark});
-      if (m.label) mark.setInfoBoxContent("<p>" + m.label + "</p>");
+      var label = null;
+      if (m.name) label = "<h3>" + m.name + "</h3>";
+      if (m.comment) label = label + "<p>" + m.comment + "</p>";
+      if (label) mark.setInfoBoxContent(label);
+
     }, this);
     this.points.extend(route.points);
     this.reposition();
@@ -51,26 +55,29 @@ var Route = new Class ({
     elements = gpx.documentElement.getElementsByTagName('trkpt');
     if (elements.length == 0) elements = gpx.documentElement.getElementsByTagName('rtept');
 
-    // elements is a NodeList, not an array, and doesn't each().
+    // elements is a NodeList, not an array, and doesn't have an each().
     for( var i = 0; i < elements.length && i < 1000; ++i ) {
       el = elements[i];
       var lat = parseFloat(el.getAttribute('lat'));
       var lon = parseFloat(el.getAttribute('lon'));
       var point = new MMLatLon( lat, lon);
-      var name_element = el.getElementsByTagName('name')[0];
       this.points.push(point);
-      var label = name_element ? name_element.firstChild.nodeValue : el.getAttribute('title');
-      if (label && !label.match(/^WP/)) this.addMarker(point, '!', label);
+
+      var name_element = el.getElementsByTagName('name')[0];
+      var comment_element = el.getElementsByTagName('desc')[0];
+      var name = name_element ? name_element.firstChild.nodeValue : el.getAttribute('title');
+      var comment = comment_element ? comment_element.firstChild.nodeValue : null;
+      if (comment || (name && !name.match(/^WP/))) this.addMarker(point, '!', name, comment);
     };
     if (this.points.length > 0) {
-      this.addMarker(this.points[0], '>', 'start');
+      this.addMarker(this.points[0], '>', this.title);
       this.addMarker(this.points.getLast(), '@', 'finish');
     }    
     this.display();
   },
-  addMarker: function (point, mark, label) {
-    if (!label) label = "";
-    this.markers.push( {'point' : point, 'mark' : mark, 'label' : label} );
+  addMarker: function (point, mark, name, comment) {
+    if (!mark) mark = "!";
+    this.markers.push( {'point' : point, 'mark' : mark, 'name' : name, 'comment' : comment} );
   },
   buildPolyLine: function () {
     if (!this.polyline) this.polyline = new MMPolyLineOverlay( this.points, undefined, 0.4, 1, false, undefined );
