@@ -3,7 +3,7 @@ var NavBar = new Class({
   initialize: function (element) {    
     this.head = element.getElement('thead');
     this.opento = element.getHeight();
-    this.closeto = this.head.getHeight() - 1;
+    this.closeto = this.head.getHeight();
     this.parent(element);
   },
   transitionIn: function () { return Fx.Transitions.Bounce.easeOut; },
@@ -11,8 +11,8 @@ var NavBar = new Class({
   durationIn: function () { return 'normal'; },
   durationOut: function () { return 'long'; },
   setShownAndHiddenStates: function () {
-    this.when_hiding = {'height' : this.closeto, 'background-color' : '#924e73'};
-    this.when_showing = {'height' : this.opento, 'background-color' : '#d1005d'};
+    this.when_hiding = {'height' : this.closeto};
+    this.when_showing = {'height' : this.opento};
   },
   afterInitialize: function () { this.hide(); },
   beforeShowing: function () { this.container.addClass('open'); this.visible = true; },
