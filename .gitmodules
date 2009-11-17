@@ -88,3 +88,6 @@
 [submodule "vendor/extensions/paperclipped_gps"]
 	path = vendor/extensions/paperclipped_gps
 	url = git@github.com:spanner/radiant-paperclipped_gps-extension.git
+[submodule "vendor/extensions/drag_order"]
+	path = vendor/extensions/drag_order
+	url = git://github.com/bright4/radiant-drag-order.git
