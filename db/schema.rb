@@ -22,9 +22,8 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "upload_token"
+    t.boolean  "furniture",          :default => false
     t.integer  "site_id"
-    t.boolean  "furniture"
-    t.string   "copyright"
   end
 
   create_table "calendars", :force => true do |t|
@@ -42,7 +41,7 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
 
   create_table "config", :force => true do |t|
     t.string "key",   :limit => 40, :default => "", :null => false
-    t.string "value",               :default => ""
+    t.text   "value"
   end
 
   add_index "config", ["key"], :name => "key", :unique => true
@@ -130,6 +129,25 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "site_id"
   end
 
+  create_table "labellings", :force => true do |t|
+    t.integer "label_id"
+    t.string  "labelled_type"
+    t.integer "labelled_id"
+  end
+
+  add_index "labellings", ["labelled_type", "labelled_id"], :name => "index_labellings_on_labelled"
+
+  create_table "labels", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "labels", ["title"], :name => "index_labels_on_title"
+
   create_table "layouts", :force => true do |t|
     t.string   "name",              :limit => 100
     t.text     "content"
@@ -166,8 +184,37 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "updated_by_id"
     t.integer  "lock_version"
     t.string   "function_id"
-    t.integer  "status_id",     :default => 1
     t.integer  "group_id"
+    t.integer  "status_id",     :default => 1
+    t.integer  "layout_id"
+  end
+
+  create_table "moderatorships", :force => true do |t|
+    t.integer "forum_id"
+    t.integer "user_id"
+  end
+
+  add_index "moderatorships", ["forum_id"], :name => "index_moderatorships_on_forum_id"
+
+  create_table "monitorships", :force => true do |t|
+    t.integer "topic_id"
+    t.integer "user_id"
+    t.boolean "active",   :default => false
+  end
+
+  create_table "old_page_attachments", :force => true do |t|
+    t.string   "content_type"
+    t.string   "filename"
+    t.integer  "size"
+    t.integer  "parent_id"
+    t.string   "thumbnail"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at"
+    t.integer  "created_by"
+    t.datetime "updated_at"
+    t.integer  "updated_by"
+    t.integer  "page_id"
   end
 
   create_table "page_attachments", :force => true do |t|
@@ -202,11 +249,11 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "lock_version",                   :default => 0
     t.string   "description"
     t.string   "keywords"
+    t.integer  "position"
     t.boolean  "commentable",                    :default => true
     t.boolean  "comments_closed",                :default => false
     t.boolean  "searchable",                     :default => true
     t.boolean  "delta",                          :default => false
-    t.integer  "position"
   end
 
   add_index "pages", ["class_name"], :name => "pages_class_name"
@@ -273,14 +320,16 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.integer  "user_id"
     t.datetime "last_request_at"
     t.datetime "last_login_at"
-    t.string   "persistence_token",                      :default => "",    :null => false
-    t.string   "single_access_token",                    :default => "",    :null => false
-    t.string   "perishable_token",                       :default => "",    :null => false
+    t.string   "persistence_token",                                         :null => false
+    t.string   "single_access_token",                                       :null => false
+    t.string   "perishable_token",                                          :null => false
     t.integer  "login_count",                            :default => 0,     :null => false
     t.integer  "failed_login_count",                     :default => 0,     :null => false
     t.string   "current_login_ip"
     t.string   "last_login_ip"
     t.string   "clear_password"
+    t.integer  "posts_count",                            :default => 0
+    t.integer  "old_id"
     t.string   "forename"
     t.string   "phone"
     t.string   "organisation"
@@ -290,8 +339,6 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.string   "post_town"
     t.string   "post_county"
     t.string   "postcode"
-    t.integer  "posts_count",                            :default => 0
-    t.integer  "old_id"
   end
 
   add_index "readers", ["session_token"], :name => "session_token"
@@ -317,10 +364,10 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
     t.datetime "updated_at"
     t.string   "subtitle"
     t.string   "abbreviation"
-    t.integer  "forum_layout_id"
     t.integer  "reader_layout_id"
     t.string   "mail_from_name"
     t.string   "mail_from_address"
+    t.integer  "forum_layout_id"
   end
 
   create_table "snippets", :force => true do |t|
@@ -418,21 +465,51 @@ ActiveRecord::Schema.define(:version => 20081203140407) do
   add_index "topics", ["page_id"], :name => "index_topics_on_page_id"
   add_index "topics", ["site_id"], :name => "index_topics_on_site_id"
 
-  create_table "users", :force => true do |t|
-    t.string   "name",          :limit => 100
-    t.string   "email"
-    t.string   "login",         :limit => 40,  :default => "",    :null => false
-    t.string   "password",      :limit => 40
+  create_table "user_config", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "user_property_id"
+    t.string   "user_property_value"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.boolean  "admin",                        :default => false, :null => false
-    t.boolean  "developer",                    :default => false, :null => false
+  end
+
+  create_table "user_properties", :force => true do |t|
+    t.string   "key"
+    t.string   "title"
+    t.string   "default"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name",                 :limit => 100
+    t.string   "email"
+    t.string   "login",                :limit => 40,  :default => "",    :null => false
+    t.string   "password",             :limit => 40
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.boolean  "admin",                               :default => false, :null => false
+    t.boolean  "developer",                           :default => false, :null => false
     t.text     "notes"
-    t.integer  "lock_version",                 :default => 0
+    t.integer  "lock_version",                        :default => 0
     t.string   "salt"
+    t.integer  "posts_count",                         :default => 0
+    t.text     "description"
+    t.text     "description_html"
+    t.boolean  "receive_email"
+    t.string   "activation_code"
+    t.string   "provisional_password"
+    t.string   "plaintext_password"
+    t.datetime "activated_at"
     t.string   "session_token"
+    t.string   "honorific"
     t.integer  "site_id"
   end
 

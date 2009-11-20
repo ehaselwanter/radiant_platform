@@ -18,7 +18,7 @@ ul.main li.locked .subject a,ul.main li.locked .subject a:visited{color:#4d4e53;
 .context,.updatenote{display:block;font-family:helvetica,arial,sans-serif;font-size:0.8em;line-height:1.4;color:#cacac8;margin:0;}
 div#forum div.post{position:relative;clear:left;margin:10px 0 50px 0;}
 div#forum div.first_post{margin-top:30px;clear:both;}
-div#forum div.post_header h2{margin:0;font-weight:lighter;line-height:1.1;}
+div#forum div.post_header h2{margin:0;line-height:1.1;}
 div#forum div.post_header h2 a.speaker{font-weight:bold;}
 div#forum div.post_body{position:relative;}
 div#forum div.post_body p{margin-top:.25em;}

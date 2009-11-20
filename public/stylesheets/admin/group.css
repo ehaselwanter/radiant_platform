@@ -111,7 +111,7 @@
 	line-height: 16px;
 }
 
-#content .form-area p.description {
+#content .form-area p.description, #content .form-area p.invitation {
   margin-top: 10px;
 }
 
