@@ -42,7 +42,8 @@ var TabSet = new Class({
   addTab: function (tab) {
     this.tabs.push(tab);
     if (this.tabs.length == 1) {
-      this.select(tab);
+      tab.show();
+      this.foreground = tab;
     } else {
       tab.hide();
     }
@@ -57,13 +58,19 @@ var TabSet = new Class({
       }
     }, this);
   },
+  next: function (e) {
+    return this.tabAfter(this.foreground);
+  },
   showNext: function (e) {
     unevent(e);
-    this.select(this.tabAfter(this.foreground));
+    this.select(this.next());
+  },
+  previous: function (e) {
+    return this.tabBefore(this.foreground);
   },
   showPrev: function (e) {
     unevent(e);
-    this.select(this.tabBefore(this.foreground));
+    this.select(this.previous());
   },
   tabAfter: function (tab) {
     var pos = this.tabs.indexOf(tab);
