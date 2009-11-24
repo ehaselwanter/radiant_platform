@@ -52,7 +52,6 @@ var SlidingSet = new Class ({
     });
   },
   stop: function (e) {
-    console.trace();
     unevent(e);
     $clear(this.timer);
     this.rolling = false;
